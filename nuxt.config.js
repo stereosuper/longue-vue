@@ -1,14 +1,22 @@
 import dotenv from 'dotenv';
 import path from 'path';
-import OptimizeThreePlugin from '@vxna/optimize-three-webpack-plugin';
 
 import enTranslation from './locales/en.json';
 import frTranslation from './locales/fr.json';
 
 dotenv.config();
 
+const netlifyEnv = process.env.NODE_ENV;
+const isDevEnv = netlifyEnv === 'development';
+const websiteUrl =
+    process.env.URL || `http://${process.env.HOST}:${process.env.PORT}`;
+
 export default {
     mode: 'universal',
+    /*
+     ** Environnement variables shared for the client and server-side
+     */
+    env: { cmsToken: process.env.CMS_TOKEN, isDevEnv, websiteUrl },
     /*
      ** Headers of the page
      */
@@ -29,13 +37,35 @@ export default {
         link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
     },
     /*
-     ** Customize the progress-bar color
+     ** PWA config
      */
-    loading: { color: '#fff' },
+    pwa: {
+        manifest: {
+            name: 'My Business',
+            lang: 'fr',
+            theme_color: '#000000',
+            ogTitle: 'My Business - Title',
+            ogSiteName: 'My Business',
+            ogUrl: 'https://my-business.fr',
+            ogImage: {
+                path: 'https://my-business.fr/img/my-business-og-image.png',
+                width: '2000',
+                height: '1550',
+                type: 'image/png',
+            },
+            twitterCard: 'summary_large_image',
+            twitterSite: '@MyBusiness',
+            twitterCreator: '@MyBusiness',
+        },
+    },
+    /*
+     ** Customize the progress-bar
+     */
+    loading: '~/components/LoadingBar.vue',
     /*
      ** Global CSS
      */
-    css: ['@/assets/scss/main.scss'],
+    css: ['~/assets/scss/main.scss'],
     /*
      ** Plugins to load before mounting the App
      */
@@ -43,47 +73,26 @@ export default {
     /*
      ** Nuxt.js dev-modules
      */
-    buildModules: [],
-    /*
-     ** Nuxt.js modules
-     */
-    modules: [
-        // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios',
+    buildModules: [
         '@nuxtjs/dotenv',
-        '@nuxtjs/style-resources',
+        // SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
+        '~/modules/crawler',
+        '~/modules/static',
+        '@nuxtjs/pwa',
+        // Doc: https://nuxt-community.github.io/nuxt-i18n/
         [
             'nuxt-i18n',
             {
-                locales: ['en', 'fr'],
+                locales: ['fr', 'en'],
                 strategy: 'prefix_except_default',
-                defaultLocale: 'en',
-                detectBrowserLanguage: false,
+                defaultLocale: 'fr',
                 routesNameSeparator: '-',
-                parsePages: false, // Disable acorn parsing
-                pages: {
-                    'projects/index': {
-                        en: '/projects',
-                        fr: '/projets',
-                    },
-                    'projects/_project': {
-                        en: '/projects/:project?',
-                        fr: '/projets/:project?',
-                    },
-                    'experiments/index': {
-                        en: '/experiments',
-                        fr: '/experiences',
-                    },
-                    'experiments/_experiment': {
-                        en: '/experiments/:experiment?',
-                        fr: '/experiences/:experiment?',
-                    },
-                },
+                pages: {},
                 vueI18n: {
-                    fallbackLocale: 'en',
+                    fallbackLocale: 'fr',
                     messages: {
-                        en: enTranslation ? enTranslation : {},
-                        fr: frTranslation ? frTranslation : {},
+                        fr: frTranslation || {},
+                        en: enTranslation || {},
                     },
                 },
                 vuex: {
@@ -93,10 +102,21 @@ export default {
                 },
             },
         ],
+        '@nuxtjs/style-resources',
+    ],
+    /*
+     ** Nuxt.js modules
+     */
+    modules: [
+        // Doc: https://axios.nuxtjs.org/usage
+        '@nuxtjs/axios',
         '~/modules/scrape',
     ],
+    /*
+     ** Nuxt Style Resources module configuration
+     */
     styleResources: {
-        sass: [
+        scss: [
             '~/assets/scss/abstracts/_variables.scss',
             '~/assets/scss/abstracts/_functions.scss',
             '~/assets/scss/abstracts/_mixins.scss',
@@ -110,8 +130,10 @@ export default {
     axios: {},
     generate: {
         routes: () => {
-            const routes = require('./assets/data/routes.json');
-            return JSON.parse(routes);
+            // Return the routes here
+            // Example: 👇
+            // const routes = require('./assets/data/routes.json');
+            // return JSON.parse(routes);
         },
         fallback: '404.html',
     },
@@ -125,6 +147,14 @@ export default {
         babel: {
             plugins: ['@babel/plugin-proposal-optional-chaining'],
         },
+        /*
+         ** Used to analyse chunks
+         */
+        analyze: isDevEnv
+            ? {
+                  analyzerMode: 'static',
+              }
+            : false,
         extend(config, ctx) {
             config.resolve.alias['vue'] = 'vue/dist/vue.common';
             // Run ESLint on save
@@ -140,24 +170,6 @@ export default {
                         sourceMap: true,
                     },
                 });
-                config.module.rules.push({
-                    test: /\.(glsl|vs|fs|vert|frag)$/,
-                    exclude: /node_modules/,
-                    use: ['raw-loader', 'glslify-loader'],
-                });
-                config.module.rules.push({
-                    test: /\.(mp3|ogg)$/,
-                    use: [
-                        {
-                            loader: 'file-loader',
-                            options: {
-                                name: '[name].[ext]',
-                                outputPath: 'songs',
-                            },
-                        },
-                    ],
-                });
-                config.plugins.push(new OptimizeThreePlugin());
             }
         },
     },

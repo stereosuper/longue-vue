@@ -5,15 +5,7 @@
 </template>
 
 <script>
-export default {
-    mounted() {
-        test = { lol: '' };
-        if (test?.lol) {
-            console.log();
-        }
-        console.log();
-    },
-};
+export default {};
 </script>
 
 <style lang="scss" scoped>
