@@ -110,7 +110,6 @@ export default {
     modules: [
         // Doc: https://axios.nuxtjs.org/usage
         '@nuxtjs/axios',
-        '~/modules/scrape',
     ],
     /*
      ** Nuxt Style Resources module configuration
