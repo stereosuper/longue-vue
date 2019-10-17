@@ -21,9 +21,9 @@ module.exports = [
     {
         name: 'pm',
         message: '👉 Choose the package manager',
-        choices: [{ name: 'Yarn', value: 'yarn' }, { name: 'Npm', value: 'npm' }],
+        choices: [{ name: 'Npm', value: 'npm' }, { name: 'Yarn', value: 'yarn' }],
         type: 'list',
-        default: 'yarn'
+        default: 'npm'
     },
     {
         name: 'features',
