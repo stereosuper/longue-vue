@@ -36,6 +36,13 @@
         "@nuxtjs/robots": "^2.4.0",
         "@nuxtjs/sitemap": "^1.3.0",
         "@nuxtjs/style-resources": "^1.0.0",
+        "apollo-cache-inmemory": "^1.6.2",
+        "apollo-client": "^2.6.3",
+        <%_ if (apollo && cms === 'dato') { _%>
+        "apollo-link-http": "^1.5.15",
+        <%_ } else if (apollo && cms === 'prismic') { _%>
+        "apollo-link-prismic": "^1.0.2",
+        <%_ } _%>
         "babel-eslint": "^10.0.3",
         "cross-env": "^6.0.3",
         "dotenv": "^8.1.0",
@@ -44,6 +51,9 @@
         "eslint-loader": "^3.0.0",
         "eslint-plugin-prettier": "^3.1.0",
         "eslint-plugin-vue": "^5.2.3",
+        <%_ if (apollo && cms === 'dato') { _%>
+        "node-fetch": "^2.6.0",
+        <%_ } _%>
         "node-sass": "^4.12.0",
         <%_ if (i18n) { _%>
         "nuxt-i18n": "^6.1.3",

@@ -26,6 +26,17 @@ module.exports = [
         default: 'npm'
     },
     {
+        name: 'cms',
+        message: '👉 Choose the CMS',
+        choices: [
+            { name: 'DatoCMS 😘', value: 'dato' },
+            { name: 'Prismic 💪', value: 'prismic' },
+            { name: 'WordPress 🤮', value: 'wordpress' }
+        ],
+        type: 'list',
+        default: 'dato'
+    },
+    {
         name: 'features',
         message: '👉 Choose Nuxt.js modules',
         type: 'checkbox',

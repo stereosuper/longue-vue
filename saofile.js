@@ -5,6 +5,7 @@ const validate = require('validate-npm-package-name');
 module.exports = {
     prompts: require('./prompts'),
     templateData() {
+        const cms = this.answers.cms;
         const pwa = this.answers.features.includes('pwa');
         const axios = this.answers.features.includes('axios');
         const apollo = this.answers.features.includes('apollo');
@@ -12,14 +13,7 @@ module.exports = {
         const stereorepoSac = this.answers.stereorepo.includes('sac');
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
 
-        return {
-            axios,
-            apollo,
-            pwa,
-            i18n,
-            stereorepoSac,
-            pmRun
-        };
+        return { cms, axios, apollo, pwa, i18n, stereorepoSac, pmRun };
     },
     actions() {
         const validation = validate(this.answers.name);
@@ -39,6 +33,9 @@ module.exports = {
                 files: '**',
                 templateDir: 'template/nuxt',
                 filters: {
+                    'cms/apollo-config.js': 'features.includes("apollo")',
+                    'cms/queries': 'features.includes("apollo")',
+                    'modules/initFragmentMatcher.js': 'features.includes("apollo")',
                     'static/icon.png': 'features.includes("pwa")'
                 }
             }
