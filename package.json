@@ -1,45 +1,48 @@
 {
-    "name": "longue-vue",
-    "version": "1.4.6",
-    "description": "My legendary Nuxt.js project",
-    "author": "Alphability <albanmezino@gmail.com> (https://albanmezino.fr)",
+    "name": "create-longue-vue",
+    "version": "2.0.0",
+    "description": "Create a Stéréosuper Nuxt.js App like a beast.",
+    "bin": "cli.js",
+    "files": [
+        "cli.js",
+        "prompts.js",
+        "saofile.js",
+        "template/"
+    ],
+    "repository": {
+        "url": "git+https://github.com/stereosuper/longue-vue.git",
+        "type": "git"
+    },
     "scripts": {
-        "dev": "nuxt",
-        "build": "nuxt build",
-        "start": "nuxt start",
-        "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-        "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
-        "generate": "nuxt generate"
+        "lint": "eslint --ext .js,.mjs,.vue .",
+        "test": "ava --verbose",
+        "test:snapshot": "ava --verbose --update-snapshots",
+        "release": "standard-version"
     },
     "dependencies": {
-        "nuxt": "^2.0.0",
-        "@nuxtjs/axios": "^5.3.6"
+        "cac": "^6.5.3",
+        "chalk": "^2.4.2",
+        "cross-spawn": "^7.0.0",
+        "envinfo": "^7.4.0",
+        "glob": "^7.1.4",
+        "lodash": "^4.17.15",
+        "sao": "^1.7.0",
+        "superb": "^4.0.0",
+        "validate-npm-package-name": "^3.0.0"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-optional-chaining": "^7.2.0",
-        "@nuxtjs/dotenv": "^1.4.0",
-        "@nuxtjs/pwa": "^3.0.0-beta.19",
-        "@nuxtjs/style-resources": "^1.0.0",
-        "@vxna/optimize-three-webpack-plugin": "^1.0.8",
+        "@nuxtjs/eslint-config": "^1.1.2",
+        "ava": "^2.4.0",
         "babel-eslint": "^10.0.3",
-        "dotenv": "^8.1.0",
-        "eslint": "^6.3.0",
+        "eslint": "^6.5.0",
         "eslint-config-prettier": "^6.2.0",
         "eslint-loader": "^3.0.0",
         "eslint-plugin-prettier": "^3.1.0",
         "eslint-plugin-vue": "^5.2.3",
-        "node-sass": "^4.12.0",
-        "nuxt-i18n": "^6.1.3",
         "prettier": "^1.18.2",
-        "sass-loader": "^8.0.0"
+        "standard-version": "^7.0.0"
     },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/stereosuper/longue-vue"
-    },
-    "keywords": [
-        "vue.js",
-        "nuxt.js"
-    ],
-    "license": "ISC"
+    "author": "Alphability <albanmezino@gmail.com> (https://albanmezino.fr)",
+    "homepage": "https://github.com/stereosuper/longue-vue#readme",
+    "license": "MIT"
 }

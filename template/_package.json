@@ -1,0 +1,63 @@
+{
+    "name": "<%= name %>",
+    "version": "1.0.0",
+    "description": "<%= description %>",
+    "author": "<%= author %>",
+    "private": true,
+    "scripts": {
+        "dev": "cross-env HOST=0.0.0.0 PORT=3000 nuxt",
+        "build": "nuxt build",
+        "start": "nuxt start",
+        "generate": "nuxt generate",
+        "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+        "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+        "": ""
+    },
+    "dependencies": {
+        <%_ if (axios) { _%>
+        "@nuxtjs/axios": "^5.3.6",
+        <%_ } _%>
+        <%_ if (stereorepoSac) { _%>
+        "@stereorepo/sac": "^2.0.5",
+        <%_ } _%>
+        "gsap": "^2.1.3",
+        "nuxt": "^2.0.0",
+        "sharp": "^0.23.0",
+        "": ""
+    },
+    "devDependencies": {
+        "@nuxtjs/dotenv": "^1.4.0",
+        <%_ if (apollo) { _%>
+        "@nuxtjs/apollo": "^4.0.0-rc10",
+        <%_ } _%>
+        <%_ if (pwa) { _%>
+        "@nuxtjs/pwa": "^3.0.0-0",
+        <%_ } _%>
+        "@nuxtjs/robots": "^2.4.0",
+        "@nuxtjs/sitemap": "^1.3.0",
+        "@nuxtjs/style-resources": "^1.0.0",
+        "babel-eslint": "^10.0.3",
+        "dotenv": "^8.1.0",
+        "eslint": "^6.3.0",
+        "eslint-config-prettier": "^6.2.0",
+        "eslint-loader": "^3.0.0",
+        "eslint-plugin-prettier": "^3.1.0",
+        "eslint-plugin-vue": "^5.2.3",
+        "node-sass": "^4.12.0",
+        <%_ if (i18n) { _%>
+        "nuxt-i18n": "^6.1.3",
+        <%_ } _%>
+        "prettier": "^1.18.2",
+        "sass-loader": "^8.0.0",
+        "": ""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/stereosuper/longue-vue"
+    },
+    "keywords": [
+        "vue.js",
+        "nuxt.js"
+    ],
+    "license": "ISC"
+}
