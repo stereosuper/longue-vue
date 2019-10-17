@@ -1,12 +1,12 @@
+import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
 <%_ if (cms === 'dato') { _%>
 import { createHttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
 <%_ } else if (cms === 'prismic') { _%>
 import { PrismicLink } from 'apollo-link-prismic';
-<%_ } _%>
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import introspectionQueryResultData from './fragmentTypes.json';
 import { graphqlEndpoint } from './cms.config.js';
+<%_ } _%>
+import introspectionQueryResultData from './fragmentTypes.json';
 
 export default () => {
     <%_ if (cms === 'dato') { _%>
@@ -14,7 +14,7 @@ export default () => {
     
     const link = createHttpLink({
         fetch,
-        uri: 'https://graphql.datocms.com/'
+        uri: 'https://graphql.datocms.com/',
         headers:{
             'Content-Type': 'application/json',
             Accept: 'application/json',

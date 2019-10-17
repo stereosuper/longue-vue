@@ -1,17 +1,16 @@
 import fs from 'fs-extra';
 import path from 'path';
 import logger from 'consola';
+import { ApolloClient } from 'apollo-client';
+import { InMemoryCache } from 'apollo-cache-inmemory';
+import gql from 'graphql-tag';
 <%_ if (cms === 'dato') { _%>
 import { createHttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
 <%_ } else if (cms === 'prismic') { _%>
 import { PrismicLink } from 'apollo-link-prismic';
-<%_ } _%>
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache } from 'apollo-cache-inmemory';
-import gql from 'graphql-tag';
-
 import { graphqlEndpoint } from '../cms/cms.config.js';
+<%_ } _%>
 
 const initFragmentMatcher = async () => {
     <%_ if (cms === 'dato') { _%>
@@ -19,7 +18,7 @@ const initFragmentMatcher = async () => {
     
     const link = createHttpLink({
         fetch,
-        uri: 'https://graphql.datocms.com/'
+        uri: 'https://graphql.datocms.com/',
         headers:{
             'Content-Type': 'application/json',
             Accept: 'application/json',
