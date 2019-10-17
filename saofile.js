@@ -93,7 +93,7 @@ module.exports = {
         console.log(chalk`\n🎉  {bold Successfully created project} {cyan ${this.answers.name}}\n`);
 
         console.log(chalk`  {bold To get started:}\n`);
-        console.log(chalk`${cdMsg}\t{cyan ${pmRun} dev}\n`);
+        console.log(chalk`${cdMsg}\t{cyan ${this.answers.pm} install}\t{cyan ${pmRun} dev}\n`);
 
         console.log(chalk`  {bold To build & start for production:}\n`);
         console.log(chalk`${cdMsg}\t{cyan ${pmRun} build}`);
