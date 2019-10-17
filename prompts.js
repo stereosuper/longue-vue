@@ -31,7 +31,8 @@ module.exports = [
         choices: [
             { name: 'DatoCMS 😘', value: 'dato' },
             { name: 'Prismic 💪', value: 'prismic' },
-            { name: 'WordPress 🤮', value: 'wordpress' }
+            { name: 'WordPress 🤮', value: 'wordpress' },
+            { name: 'None 🤔', value: 'none' }
         ],
         type: 'list',
         default: 'dato'

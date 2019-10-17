@@ -7,8 +7,8 @@ module.exports = {
     templateData() {
         const cms = this.answers.cms;
         const pwa = this.answers.features.includes('pwa');
-        const axios = this.answers.features.includes('axios');
-        const apollo = this.answers.features.includes('apollo');
+        const axios = this.answers.features.includes('axios') || cms === 'wordpress';
+        const apollo = this.answers.features.includes('apollo') || cms === 'dato' || cms === 'prismic';
         const i18n = this.answers.features.includes('i18n');
         const stereorepoSac = this.answers.stereorepo.includes('sac');
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
@@ -34,7 +34,6 @@ module.exports = {
                 templateDir: 'template/nuxt',
                 filters: {
                     'cms/apollo-config.js': 'features.includes("apollo")',
-                    'cms/queries': 'features.includes("apollo")',
                     'modules/initFragmentMatcher.js': 'features.includes("apollo")',
                     'static/icon.png': 'features.includes("pwa")'
                 }
