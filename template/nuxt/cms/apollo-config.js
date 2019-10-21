@@ -2,11 +2,12 @@ import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemo
 <%_ if (cms === 'dato') { _%>
 import { createHttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
+import { graphqlEndpoint, graphqlEndpointPreview } from './cms.config';
 <%_ } else if (cms === 'prismic') { _%>
 import { PrismicLink } from 'apollo-link-prismic';
+import { graphqlEndpoint } from './cms.config.js';
 <%_ } _%>
 import introspectionQueryResultData from './fragmentTypes.json';
-import { graphqlEndpoint } from './cms.config.js';
 
 export default () => {
     <%_ if (cms === 'dato') { _%>
@@ -14,7 +15,7 @@ export default () => {
     
     const link = createHttpLink({
         fetch,
-        uri: graphqlEndpoint,
+        uri: process.env.isDevEnv ? graphqlEndpointPreview : graphqlEndpoint,
         headers:{
             'Content-Type': 'application/json',
             Accept: 'application/json',
