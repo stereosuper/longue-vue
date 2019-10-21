@@ -1,4 +1,12 @@
-<%_ if (cms === 'prismic') { _%>
+<%_ if (cms === 'dato') { _%>
+export const apiEndpoint = '';
+export const graphqlEndpoint = 'https://graphql.datocms.com/';
+
+export default {
+    apiEndpoint,
+    graphqlEndpoint
+};
+<%_ } else if (cms === 'prismic') { _%>
 export const apiEndpoint = 'https://<%= name %>.cdn.prismic.io/api/v2';
 export const graphqlEndpoint = 'https://<%= name %>.prismic.io/graphql';
 

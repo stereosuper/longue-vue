@@ -4,9 +4,9 @@ import { createHttpLink } from 'apollo-link-http';
 import fetch from 'node-fetch';
 <%_ } else if (cms === 'prismic') { _%>
 import { PrismicLink } from 'apollo-link-prismic';
-import { graphqlEndpoint } from './cms.config.js';
 <%_ } _%>
 import introspectionQueryResultData from './fragmentTypes.json';
+import { graphqlEndpoint } from './cms.config.js';
 
 export default () => {
     <%_ if (cms === 'dato') { _%>
@@ -14,7 +14,7 @@ export default () => {
     
     const link = createHttpLink({
         fetch,
-        uri: 'https://graphql.datocms.com/',
+        uri: graphqlEndpoint,
         headers:{
             'Content-Type': 'application/json',
             Accept: 'application/json',

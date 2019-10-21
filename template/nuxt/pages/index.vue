@@ -17,11 +17,11 @@ export default {
     <%_ } _%>
         return {
             <%_ if (apollo && i18n) { _%>
-            cmsData: getHome({ app, store })
+            cmsData: await getHome({ app, store })
             <%_ } else if (apollo) { _%>
-            cmsData: getHome({ app })
+            cmsData: await getHome({ app })
             <%_ } else if (axios && cms === 'wordpress' ) { _%>
-            cmsData: { home: getHome({ axios: $axios }) }
+            cmsData: { home: await getHome({ axios: $axios }) }
             <%_ } _%>
         };
     }
