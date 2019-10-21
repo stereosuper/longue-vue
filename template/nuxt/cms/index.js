@@ -1,6 +1,7 @@
 <%_ if (apollo) { _%>
 import homePageQuery from '~/cms/queries/homePageQuery';
 
+<%_ if (i18n) { _%>
 const getLocaleIso = ({ app, store }) => {
     const { locale } = store.state.i18n;
     const { locales } = app.i18n;
@@ -10,7 +11,6 @@ const getLocaleIso = ({ app, store }) => {
     return iso;
 };
 
-<%_ if (i18n) { _%>
 export const getHome = async ({ app, store }) => {
 <%_ } else { _%>
 export const getHome = async ({ app }) => {
