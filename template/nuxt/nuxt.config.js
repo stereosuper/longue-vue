@@ -288,6 +288,14 @@ export default {
                     type: 'image/png'
                 }
             ]
+        },
+        workbox: {
+            runtimeCaching: [
+                {
+                    urlPattern: `${websiteUrl}/static-media/.*`,
+                    handler: 'cacheFirst'
+                }
+            ]
         }
     },
     <%_ } _%>
