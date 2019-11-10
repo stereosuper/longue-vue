@@ -10,10 +10,12 @@ module.exports = {
         const axios = this.answers.features.includes('axios') || cms === 'wordpress';
         const apollo = this.answers.features.includes('apollo') || cms === 'dato' || cms === 'prismic';
         const i18n = this.answers.features.includes('i18n');
+        const stereorepoBurger = this.answers.stereorepo.includes('burger');
         const stereorepoSac = this.answers.stereorepo.includes('sac');
+        const gsap = this.answers.packages.includes('gsap');
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
 
-        return { cms, axios, apollo, pwa, i18n, stereorepoSac, pmRun };
+        return { axios, apollo, cms, gsap, i18n, pmRun, pwa, stereorepoBurger, stereorepoSac };
     },
     actions() {
         const validation = validate(this.answers.name);

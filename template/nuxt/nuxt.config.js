@@ -305,6 +305,7 @@ export default {
     styleResources: {
         scss: [
             '~/assets/scss/abstracts/_variables.scss',
+            '~/assets/scss/abstracts/_animations.scss',
             '~/assets/scss/abstracts/_functions.scss',
             '~/assets/scss/abstracts/_mixins.scss',
             '~/assets/scss/abstracts/_placeholders.scss'
@@ -320,7 +321,7 @@ export default {
             let routes = [];
             const routesPath = path.resolve(__dirname, 'dist/routes.json');
             const exists = fs.existsSync(routesPath);
-            if (!exists) return;
+            if (!exists) return routes;
             routes = require(routesPath);
             return routes;
         }
@@ -332,15 +333,18 @@ export default {
         /*
          ** Used to analyse chunks
          */
-        analyze: isDevEnv
-            ? {
-                analyzerMode: 'static'
-            }
-            : false,
+        analyze: isDevEnv ? { analyzerMode: 'static' } : false,
         /*
          ** You can extend webpack config here
          */
-        transpile: [/@stereorepo/],
+        transpile: [
+            <%_ if (stereorepoBurger || stereorepoSac) { _%>
+            /@stereorepo/,
+            <%_ } _%>
+            <%_ if (gsap) { _%>
+            /gsap/,
+            <%_ } _%>
+        ],
         extend(config, ctx) {
             config.resolve.alias['vue'] = 'vue/dist/vue.common';
             delete config.resolve.alias['@@'];

@@ -1,0 +1,15 @@
+/* Mixins */
+@mixin z-index($element) {
+    $z-index: 0;
+
+    @if $element == 'mouse-cursor' {
+        $z-index: 3;
+    } @else if $element == 'loader' {
+        $z-index: 4;
+    } @else if $element == 'main-header' {
+        $z-index: 2;
+    } @else if $element == 'navigation' {
+        $z-index: 1;
+    }
+    z-index: $z-index;
+}

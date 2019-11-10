@@ -1,0 +1,177 @@
+/******* GÉNÉRAL *******/
+
+::-moz-selection {
+    background: rgba($resolution-blue, 0.99);
+    color: $white;
+    text-shadow: none;
+    opacity: 0.99;
+}
+
+::selection {
+    background: rgba($resolution-blue, 0.99);
+    color: $white;
+    text-shadow: none;
+}
+
+html {
+    height: 100%;
+    /* sets the base font to 10px for easier math */
+    font-size: 62.5%;
+    background: $white;
+    @extend %locomotive-scroll;
+    @extend %no-scroll;
+}
+
+body {
+    height: 100%;
+    color: $black;
+    font: #{$text-size-mobile * 0.1}em / 1.75 $sans-serif-font;
+    font-kerning: normal;
+    font-weight: 300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+.wysiwyg h1,
+.wysiwyg h2,
+.h1,
+.h2 {
+    font-family: $serif-font;
+    font-weight: 400;
+}
+
+.wysiwyg h1,
+.h1 {
+    font-size: 3.6rem;
+    line-height: 1.25;
+    margin: 0 0 $line-height;
+    letter-spacing: 0.01em;
+}
+
+.wysiwyg h2,
+.h2 {
+    font-size: 3rem;
+    line-height: 1.5;
+    margin: 0 0 $line-height;
+    letter-spacing: 0;
+}
+
+.wysiwyg h3,
+.h3 {
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 1.75;
+    margin: 0 0 $line-height * 0.5;
+    letter-spacing: -0.02em;
+}
+
+p {
+    margin: 1em 0;
+}
+
+b,
+strong {
+    font-weight: 500;
+}
+
+i {
+    font-style: italic;
+}
+
+em {
+    font-style: initial;
+    font-weight: 500;
+}
+
+blockquote {
+    position: relative;
+    padding: 1em 0 1em $gutter * 2;
+}
+
+ol,
+ul {
+    padding: 0;
+    margin: 1em 0;
+    list-style-type: none;
+}
+
+.wysiwyg {
+    li {
+        position: relative;
+        @extend %list-dot;
+    }
+}
+
+ol {
+    counter-reset: ol-counter;
+
+    > li {
+        counter-increment: ol-counter;
+
+        &:before {
+            content: counter(ol-counter) '.';
+        }
+    }
+
+    ol {
+        padding: 0 0 0 25px;
+        margin: 1em 0;
+    }
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+// COMBAK: Remove if not used
+code,
+pre {
+    display: block;
+    padding: 10px 15px;
+    margin: 1em 0;
+    background: grey;
+}
+
+// COMBAK: Remove if not used
+hr {
+    height: 1px;
+    max-width: 250px;
+    border: 0;
+    margin: 3em auto 5em;
+    background: $black;
+}
+
+/******* LIENS / BOUTONS *******/
+
+button,
+input {
+    @extend %outline;
+}
+
+a {
+    color: inherit;
+    @extend %outline;
+    &:active {
+        filter: saturate(200%);
+    }
+}
+
+@media (min-width: $phone) {
+    body {
+        font-size: #{$text-size-desktop * 0.1}rem;
+    }
+    .wysiwyg h1,
+    .h1 {
+        font-size: 4rem;
+    }
+    .wysiwyg h2,
+    .h2 {
+        font-size: 3.2rem;
+    }
+    .wysiwyg h3,
+    .h3 {
+        font-size: 2.1rem;
+    }
+}

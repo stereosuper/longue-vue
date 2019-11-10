@@ -55,7 +55,15 @@ module.exports = [
         message: '👉 Choose Stéréorepo modules',
         type: 'checkbox',
         pageSize: 10,
-        choices: [{ name: 'Sac', value: 'sac' }],
+        choices: [{ name: 'Sac', value: 'sac' }, { name: 'Burger', value: 'burger' }],
+        default: []
+    },
+    {
+        name: 'packages',
+        message: '👉 Choose some packages',
+        type: 'checkbox',
+        pageSize: 10,
+        choices: [{ name: 'GSAP', value: 'gsap' }],
         default: []
     }
 ];
