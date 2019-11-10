@@ -26,6 +26,7 @@
         <%_ if (stereorepoSac) { _%>
         "@stereorepo/sac": "^2.1.2",
         <%_ } _%>
+        "fastdom": "^1.0.9",
         <%_ if (gsap) { _%>
         "gsap": "^2.1.3",
         <%_ } _%>

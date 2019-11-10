@@ -154,7 +154,7 @@ export default {
     /*
      ** Customize the progress-bar
      */
-    loading: '~/components/LoadingBar.vue',
+    loading: '~/components/Layout/Loader.vue',
     /*
      ** Global CSS
      */
@@ -162,7 +162,7 @@ export default {
     /*
      ** Plugins to load before mounting the App
      */
-    plugins: ['~/plugins/globals.js', '~/plugins/breakpoints.js'],
+    plugins: ['~/plugins/globals.js', '~/plugins/breakpoints.js', '~/plugins/fastdom.js'],
     /*
      ** Nuxt.js dev-modules
      ** SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
@@ -199,10 +199,11 @@ export default {
         [
             'nuxt-i18n',
             {
-                locales: ['fr', 'en'],
+                locales: [{ code: 'en', iso: 'en_US' }, { code: 'fr', iso: 'fr_FR' }],
                 strategy: 'prefix_except_default',
                 defaultLocale: 'fr',
                 routesNameSeparator: '-',
+                parsePages: false, // Disable acorn parsing
                 pages: {},
                 vueI18n: {
                     fallbackLocale: 'fr',
