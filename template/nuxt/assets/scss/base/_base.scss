@@ -1,14 +1,14 @@
 /******* GÉNÉRAL *******/
 
 ::-moz-selection {
-    background: rgba($resolution-blue, 0.99);
+    background: rgba($black, 0.99);
     color: $white;
     text-shadow: none;
     opacity: 0.99;
 }
 
 ::selection {
-    background: rgba($resolution-blue, 0.99);
+    background: rgba($black, 0.99);
     color: $white;
     text-shadow: none;
 }
@@ -18,7 +18,6 @@ html {
     /* sets the base font to 10px for easier math */
     font-size: 62.5%;
     background: $white;
-    @extend %locomotive-scroll;
     @extend %no-scroll;
 }
 
@@ -94,13 +93,6 @@ ul {
     padding: 0;
     margin: 1em 0;
     list-style-type: none;
-}
-
-.wysiwyg {
-    li {
-        position: relative;
-        @extend %list-dot;
-    }
 }
 
 ol {
