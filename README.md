@@ -1,6 +1,6 @@
-# Create Longue Vue
+# 🔭 Create Longue Vue 🔭
 
-> Create a [Stéréosuper](https://www.stereosuper.fr/) Nuxt.js App like a beast
+> [Alban 🔥] Create a [Stéréosuper](https://www.stereosuper.fr/) Nuxt.js App like a beast
 
 ## Usage
 
@@ -24,16 +24,24 @@ yarn create longue-vue <my-project>
 
 ## Features 🎉
 
-1. Choose the package manager
+1. Choose your package manager 👌
     - Yarn
     - Npm
-1. Choose Nuxt.js modules:
+1. Choose your CMS:
+    - DatoCMS 😘
+    - Prismic 💪
+    - WordPress 🤮
+    - None 🤔
+1. Choose your Nuxt.js modules:
     - [Apollo](https://github.com/nuxt-community/apollo-module)
     - [Axios](https://axios.nuxtjs.org)
     - [I18n](https://nuxt-community.github.io/nuxt-i18n/)
     - [PWA](https://pwa.nuxtjs.org/)
 1. Choose [Stéréorepo](https://github.com/stereosuper/stereorepo) modules:
     - [Sac](https://github.com/stereosuper/stereorepo/tree/master/packages/sac)
+    - [Burger](https://github.com/stereosuper/stereorepo/tree/master/packages/burger)
+1. Choose some packages:
+    - GSAP
 
 ## CLI Options
 
@@ -48,3 +56,25 @@ Show debug logs
 ### `--version`
 
 Alias: `-v`. Show version number and exit.
+
+## How to update the package
+
+### Update version
+
+You can update your package version by running `npm version`.
+
+```sh
+npm version [<newversion> | major | minor | patch
+```
+
+This command will only update your package, not publish it to npm.
+
+### Publish a new version
+
+To publish a new version of your package you just have to run `npm publish`.
+
+```sh
+npm publish
+```
+
+This command, unlike the preceding, will publish your new version on your npm repo.
