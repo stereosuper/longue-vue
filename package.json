@@ -1,6 +1,6 @@
 {
     "name": "create-longue-vue",
-    "version": "2.0.12",
+    "version": "2.0.13",
     "description": "Create a Stéréosuper Nuxt.js App like a beast.",
     "bin": "cli.js",
     "files": [
