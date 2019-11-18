@@ -66,7 +66,7 @@ const wait = async ms => {
     });
 };
 
-// This function allows us to add a timeout between promise (not possible with Promise.all)
+// This function allows us to add a timeout between promises (not possible with Promise.all)
 const runPromisesSequence = async ({ array, handler: handlerFunction, delay }, callback) => {
     const arrayLength = array.length;
     for (let index = 0; index < arrayLength; index += 1) {

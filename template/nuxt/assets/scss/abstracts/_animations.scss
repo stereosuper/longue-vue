@@ -1,6 +1,7 @@
 /* Transitions */
 // Imports
 <%_ if (stereorepoSac) { _%>
+// SEE: https://github.com/stereosuper/stereorepo/tree/master/packages/sac/src/scss
 @import '~@stereorepo/sac/src/scss/transition';
 <%_ } _%>
 

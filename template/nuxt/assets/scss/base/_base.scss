@@ -18,13 +18,15 @@ html {
     /* sets the base font to 10px for easier math */
     font-size: 62.5%;
     background: $white;
+    <%_ if (stereorepoBurger) { _%>
     @extend %no-scroll;
+    <%_ } _%>
 }
 
 body {
     height: 100%;
     color: $black;
-    font: #{$text-size-mobile * 0.1}em / 1.75 $sans-serif-font;
+    font: #{$text-size-mobile * 0.1}em / 1.5 $sans-serif-font;
     font-kerning: normal;
     font-weight: 300;
     -webkit-font-smoothing: antialiased;
