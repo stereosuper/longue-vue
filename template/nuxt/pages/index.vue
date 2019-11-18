@@ -14,6 +14,8 @@ export default {
     async asyncData({ app }) {
     <%_ } else if (axios && cms === 'wordpress') { _%>
     async asyncData({ $axios }) {
+    <%_ } else { _%>
+    async asyncData() {
     <%_ } _%>
         return {
             <%_ if (apollo && i18n) { _%>
@@ -28,5 +30,4 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>
