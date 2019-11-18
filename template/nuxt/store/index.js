@@ -21,7 +21,11 @@ export const mutations = {
     }
 };
 <%_ } else { _%>
-// export const mutations = {};
+export const mutations = {
+    setLoading(state, loading) {
+        state.loading = loading;
+    },
+};
 <%_ } _%>
 
 // export const actions = {};
