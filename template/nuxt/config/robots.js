@@ -1,8 +1,8 @@
 const robotsConfig = ({ env, url }) => {
-    const isDevEnv = env === 'development';
-    return isDevEnv
-        ? { UserAgent: '*', Disallow: '/' }
-        : { UserAgent: '*', Disallow: ['/404'], Sitemap: `${url}/sitemap.xml` };
+    const isProdEnv = env === 'production';
+    return isProdEnv
+        ? { UserAgent: '*', Disallow: ['/404'], Sitemap: `${url}/sitemap.xml` }
+        : { UserAgent: '*', Disallow: '/' };
 };
 
 export default robotsConfig;
