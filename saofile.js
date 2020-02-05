@@ -5,7 +5,7 @@ const validate = require('validate-npm-package-name');
 module.exports = {
     prompts: require('./prompts'),
     templateData() {
-        const { cms, cmsToken, netlifyEnv } = this.answers;
+        const { cms, cmsToken, netlifyEnv, prismicProjectUrl } = this.answers;
 
         // Features
         const features = {
@@ -29,7 +29,7 @@ module.exports = {
             burger: this.answers.stereorepo.includes('burger')
         };
 
-        return { cms, cmsToken, features, netlifyEnv, packages, pmRun, stereorepo };
+        return { cms, cmsToken, features, netlifyEnv, packages, pmRun, prismicProjectUrl, stereorepo };
     },
     actions() {
         const validation = validate(this.answers.name);

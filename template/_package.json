@@ -60,6 +60,8 @@
         <%_ if (cms === 'dato' || cms === 'prismic') { _%>
         "graphql": "^14.6.0",
         "graphql-tag": "^2.10.1",
+        <%_ } _%>
+        <%_ if (cms === 'dato') { _%>
         "node-fetch": "^2.6.0",
         <%_ } _%>
         "node-sass": "^4.12.0",

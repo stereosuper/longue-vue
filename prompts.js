@@ -43,6 +43,12 @@ module.exports = [
         when: answers => answers.cms !== 'none'
     },
     {
+        name: 'prismicProjectUrl',
+        message: '👉 Your Prismic project url',
+        default: 'https://{outFolder}.prismic.io',
+        when: answers => answers.cms === 'prismic'
+    },
+    {
         name: 'netlifyEnv',
         message: '👉 Your Netlify environment value',
         choices: [
