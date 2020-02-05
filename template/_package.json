@@ -25,9 +25,7 @@
         <%_ if (stereorepoBurger) { _%>
         "@stereorepo/burger": "^2.1.2",
         <%_ } _%>
-        <%_ if (stereorepoSac) { _%>
-        "@stereorepo/sac": "^2.1.2",
-        <%_ } _%>
+        "@stereorepo/sac": "^3.0.0",
         "fastdom": "^1.0.9",
         <%_ if (gsap) { _%>
         "gsap": "^3.0.1",

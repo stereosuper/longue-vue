@@ -3,7 +3,7 @@ import Vue from 'vue';
 const BREAKPOINTS = {
     xs: 400,
     s: 580,
-    m: 780,
+    m: 768,
     l: 960,
     xl: 1100,
     xxl: Infinity

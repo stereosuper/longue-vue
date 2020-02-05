@@ -52,10 +52,10 @@ module.exports = [
     },
     {
         name: 'stereorepo',
-        message: '👉 Choose Stéréorepo modules',
+        message: '👉 Choose Stéréorepo modules (Sac is included by default)',
         type: 'checkbox',
         pageSize: 10,
-        choices: [{ name: 'Sac', value: 'sac' }, { name: 'Burger', value: 'burger' }],
+        choices: [{ name: 'Burger', value: 'burger' }],
         default: []
     },
     {

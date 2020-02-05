@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { wait } from '~/assets/js/global';
+import { wait } from '@stereorepo/sac';
 
 export default {
     data: () => ({

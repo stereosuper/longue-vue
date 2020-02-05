@@ -339,9 +339,7 @@ export default {
          ** You can extend webpack config here
          */
         transpile: [
-            <%_ if (stereorepoBurger || stereorepoSac) { _%>
             /@stereorepo/,
-            <%_ } _%>
             <%_ if (gsap) { _%>
             /gsap/,
             <%_ } _%>

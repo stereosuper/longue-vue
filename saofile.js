@@ -11,11 +11,10 @@ module.exports = {
         const apollo = this.answers.features.includes('apollo') || cms === 'dato' || cms === 'prismic';
         const i18n = this.answers.features.includes('i18n');
         const stereorepoBurger = this.answers.stereorepo.includes('burger');
-        const stereorepoSac = this.answers.stereorepo.includes('sac');
         const gsap = this.answers.packages.includes('gsap');
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
 
-        return { axios, apollo, cms, gsap, i18n, pmRun, pwa, stereorepoBurger, stereorepoSac };
+        return { axios, apollo, cms, gsap, i18n, pmRun, pwa, stereorepoBurger };
     },
     actions() {
         const validation = validate(this.answers.name);
@@ -42,6 +41,15 @@ module.exports = {
             }
         ];
 
+        // Handling CMS related files
+        if (this.answers.cms !== 'none') {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: `template/cms/${this.answers.cms}`
+            });
+        }
+
         actions.push({
             type: 'add',
             files: '*'
@@ -51,7 +59,10 @@ module.exports = {
             type: 'move',
             patterns: {
                 gitignore: '.gitignore',
-                '_package.json': 'package.json'
+                '_package.json': 'package.json',
+                '_.editorconfig': '.editorconfig',
+                '_.eslintrc.js': '.eslintrc.js',
+                '_.prettierrc': '.prettierrc'
             }
         });
 
