@@ -6,10 +6,12 @@ dotenv.config();
 
 import robotsOptions from './config/robots';
 
-<%_ if (i18n) { _%>
-import enTranslation from './locales/en.json';
+import { excludedRoutes } from './assets/js/constants';
+import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
-<%_ } _%>
+
+// TODO: Handle redirections module
+// import getRedirections from './cms/redirections';
 
 /*
  ** NOTE:
@@ -22,6 +24,7 @@ import frTranslation from './locales/fr.json';
  */
 const netlifyEnv = process.env.NODE_ENV;
 const isDevEnv = netlifyEnv === 'development';
+const isProdEnv = netlifyEnv === 'production';
 const websiteUrl = process.env.URL || `http://${process.env.HOST}:${process.env.PORT}`;
 
 export default {
@@ -29,14 +32,14 @@ export default {
     /*
      ** Environnement variables shared for the client and server-side
      */
-    env: { cmsToken: process.env.CMS_TOKEN, isDevEnv, websiteUrl },
+    env: { <%= cms %>Token: process.env.<%= cms.toUpperCase() %>_TOKEN, isDevEnv, isProdEnv, websiteUrl },
     /*
      ** Headers of the page
      */
     head: {
         title: process.env.npm_package_name || '',
         htmlAttrs: {
-            lang: 'en'
+            lang: 'fr'
         },
         meta: [
             { charset: 'utf-8' },
@@ -167,7 +170,21 @@ export default {
      ** Nuxt.js dev-modules
      ** SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
      */
-    buildModules: ['~/modules/crawler', '~/modules/static', '~/modules/static-medias'],
+    buildModules: [
+        <%_ if (features.crawlerModule) { _%>
+        '~/modules/crawler-module',
+        <%_ } _%>
+        <%_ if (features.redirectionsModule) { _%>
+        '~/modules/redirections-module',
+        <%_ } _%>
+        <%_ if (features.staticDataModule) { _%>
+        '~/modules/static-data-module',
+        <%_ } _%>
+        <%_ if (features.staticMediasModule) { _%>
+        '~/modules/static-medias-module',
+        <%_ } _%>
+    ],
+    <%_ if (features.crawlerModule) { _%>
     /*
      ** Crawler config
      */
@@ -176,40 +193,47 @@ export default {
         // SEE: Example below
         // blacklist: ['/wp-json/', '/api.w.org/'],
     },
+    <%_ } _%>
+    <%_ if (features.redirectionsModule) { _%>
+    /*
+     ** Redirections config
+     */
+    redirections: {
+        redirectionsList: async () => {
+            return await getRedirections();
+        }
+    },
+    <%_ } _%>
     generate: {
-        fallback: '404.html'
+        fallback: '404.html',
+        exclude: excludedRoutes(isProdEnv)
     },
     /*
      ** Nuxt.js modules
      */
     modules: [
         '@nuxtjs/dotenv',
-        <%_ if (apollo) { _%>
+        <%_ if (cms === 'dato' || cms === 'prismic') { _%>
         '~/modules/initFragmentMatcher',
-        // Doc: https://github.com/nuxt-community/apollo-module
-        '@nuxtjs/apollo',
         <%_ } _%>
-        <%_ if (axios) { _%>
-        // Doc: https://axios.nuxtjs.org/usage
-        '@nuxtjs/axios',
+        <%_ if (cms !== 'none') { _%>
+        '~/modules/initLayoutData',
         <%_ } _%>
         '@nuxtjs/style-resources',
-        <%_ if (i18n) { _%>
         // Doc: https://nuxt-community.github.io/nuxt-i18n/
         [
             'nuxt-i18n',
             {
-                locales: [{ code: 'en', iso: 'en_US' }, { code: 'fr', iso: 'fr_FR' }],
+                locales,
                 strategy: 'prefix_except_default',
-                defaultLocale: 'fr',
+                defaultLocale,
                 routesNameSeparator: '-',
                 parsePages: false, // Disable acorn parsing
-                pages: {},
+                pages: getPagesList(isProdEnv),
                 vueI18n: {
-                    fallbackLocale: 'fr',
+                    fallbackLocale: defaultLocale,
                     messages: {
                         fr: frTranslation || {},
-                        en: enTranslation || {}
                     }
                 },
                 vuex: {
@@ -219,8 +243,7 @@ export default {
                 }
             }
         ],
-        <%_ } _%>
-        <%_ if (pwa) { _%>
+        <%_ if (features.pwa) { _%>
         '@nuxtjs/pwa',
         <%_ } _%>
         '@nuxtjs/sitemap',
@@ -232,25 +255,7 @@ export default {
             })
         ]
     ],
-    <%_ if (apollo) { _%>
-    /*
-     ** Axios module configuration
-     ** SEE: https://github.com/nuxt-community/apollo-module
-     */
-    apollo: {
-        clientConfigs: {
-            default: '~/cms/apollo-config.js',
-        },
-    },
-    <%_ } _%>
-    <%_ if (axios) { _%>
-    /*
-     ** Axios module configuration
-     ** SEE: https://axios.nuxtjs.org/options
-     */
-    axios: {},
-    <%_ } _%>
-    <%_ if (pwa) { _%>
+    <%_ if (features.pwa) { _%>
     /*
      ** PWA config
      */
@@ -329,6 +334,7 @@ export default {
     },
     /*
      ** Build configuration
+     ** You can extend webpack config here
      */
     build: {
         /*
@@ -336,14 +342,38 @@ export default {
          */
         analyze: isDevEnv ? { analyzerMode: 'static' } : false,
         /*
-         ** You can extend webpack config here
+        ** Nuxt SplitChunks configuration
          */
         transpile: [
             /@stereorepo/,
-            <%_ if (gsap) { _%>
+            <%_ if (packages.gsap) { _%>
             /gsap/,
             <%_ } _%>
         ],
+        /*
+         ** Nuxt SplitChunks configuration
+         */
+        splitChunks: {
+            layouts: true,
+            pages: true,
+            commons: true
+        },
+        /*
+         ** Webpack optimization configuration
+         */
+        optimization: {
+            splitChunks: {
+                cacheGroups: {
+                    vendors: {
+                        test: /node_modules[\\/]/,
+                        minSize: 100000,
+                        maxSize: 200000,
+                        priority: 9,
+                        name: true
+                    }
+                }
+            }
+        },
         extend(config, ctx) {
             config.resolve.alias['vue'] = 'vue/dist/vue.common';
             delete config.resolve.alias['@@'];
@@ -351,7 +381,7 @@ export default {
 
             // Run ESLint on save
             if (ctx.isDev && ctx.isClient) {
-                config.devtool = '#source-map';
+                config.devtool = 'source-map';
                 config.module.rules.push({
                     enforce: 'pre',
                     test: /\.(js|vue)$/,

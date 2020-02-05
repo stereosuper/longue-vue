@@ -43,10 +43,11 @@ module.exports = [
         type: 'checkbox',
         pageSize: 10,
         choices: [
-            { name: 'Apollo', value: 'apollo' },
-            { name: 'Axios', value: 'axios' },
-            { name: 'I18n', value: 'i18n' },
-            { name: 'Progressive Web App (PWA) Support', value: 'pwa' }
+            { name: 'Crawler module', value: 'crawler-module' },
+            { name: 'Progressive Web App (PWA) Support', value: 'pwa' },
+            { name: 'Redirections module', value: 'redirections-module' },
+            { name: 'Static data module', value: 'static-data-module' },
+            { name: 'Static medias module', value: 'static-medias-module' }
         ],
         default: []
     },

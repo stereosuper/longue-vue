@@ -1,6 +1,6 @@
 /* Placeholders */
 // Imports
-<%_ if (stereorepoBurger) { _%>
+<%_ if (stereorepo.burger) { _%>
 @import '~@stereorepo/burger/src/scss/burger';
 <%_ } _%>
 

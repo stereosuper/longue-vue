@@ -5,16 +5,32 @@ const validate = require('validate-npm-package-name');
 module.exports = {
     prompts: require('./prompts'),
     templateData() {
+        // CMS
         const cms = this.answers.cms;
-        const pwa = this.answers.features.includes('pwa');
-        const axios = this.answers.features.includes('axios') || cms === 'wordpress';
-        const apollo = this.answers.features.includes('apollo') || cms === 'dato' || cms === 'prismic';
-        const i18n = this.answers.features.includes('i18n');
-        const stereorepoBurger = this.answers.stereorepo.includes('burger');
-        const gsap = this.answers.packages.includes('gsap');
+
+        // Features
+        const features = {
+            crawlerModule: this.answers.features.includes('crawler-module'),
+            pwa: this.answers.features.includes('pwa'),
+            redirectionsModule: this.answers.features.includes('redirections-module'),
+            staticDataModule: this.answers.features.includes('static-data-module'),
+            staticMediasModule: this.answers.features.includes('static-medias-module')
+        };
+
+        // Packages
+        const packages = {
+            gsap: this.answers.packages.includes('gsap')
+        };
+
+        // Package manager
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
 
-        return { axios, apollo, cms, gsap, i18n, pmRun, pwa, stereorepoBurger };
+        // Stereorepo
+        const stereorepo = {
+            burger: this.answers.stereorepo.includes('burger')
+        };
+
+        return { cms, features, packages, pmRun, stereorepo };
     },
     actions() {
         const validation = validate(this.answers.name);
@@ -34,8 +50,6 @@ module.exports = {
                 files: '**',
                 templateDir: 'template/nuxt',
                 filters: {
-                    'cms/apollo-config.js': 'features.includes("apollo")',
-                    'modules/initFragmentMatcher.js': 'features.includes("apollo")',
                     'static/icon.png': 'features.includes("pwa")'
                 }
             }
@@ -47,6 +61,39 @@ module.exports = {
                 type: 'add',
                 files: '**',
                 templateDir: `template/cms/${this.answers.cms}`
+            });
+        }
+
+        // Handling Nuxt modules related files
+        if (this.answers.features.includes('crawler-module')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/nuxt-modules/crawler-module'
+            });
+        }
+
+        if (this.answers.features.includes('redirections-module')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/nuxt-modules/redirections-module'
+            });
+        }
+
+        if (this.answers.features.includes('static-data-module')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/nuxt-modules/static-data-module'
+            });
+        }
+
+        if (this.answers.features.includes('static-medias-module')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/nuxt-modules/static-medias-module'
             });
         }
 

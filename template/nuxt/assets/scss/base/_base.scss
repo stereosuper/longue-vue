@@ -18,7 +18,7 @@ html {
     /* sets the base font to 10px for easier math */
     font-size: 62.5%;
     background: $white;
-    <%_ if (stereorepoBurger) { _%>
+    <%_ if (stereorepo.burger) { _%>
     @extend %no-scroll;
     <%_ } _%>
 }
