@@ -61,7 +61,7 @@ module.exports = {
                 gitignore: '.gitignore',
                 '_package.json': 'package.json',
                 '_.editorconfig': '.editorconfig',
-                '_.eslintrc.js': '.eslintrc.js',
+                '_.eslintrc': '.eslintrc',
                 '_.prettierrc': '.prettierrc'
             }
         });
