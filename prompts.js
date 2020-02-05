@@ -31,11 +31,27 @@ module.exports = [
         choices: [
             { name: 'DatoCMS 😘', value: 'dato' },
             { name: 'Prismic 💪', value: 'prismic' },
-            { name: 'WordPress 🤮', value: 'wordpress' },
             { name: 'None 🤔', value: 'none' }
         ],
         type: 'list',
         default: 'dato'
+    },
+    {
+        name: 'cmsToken',
+        message: '👉 Your CMS token',
+        default: 'MY_TOKEN_1234567890',
+        when: answers => answers.cms !== 'none'
+    },
+    {
+        name: 'netlifyEnv',
+        message: '👉 Your Netlify environment value',
+        choices: [
+            { name: 'Production 🚀', value: 'production' },
+            { name: 'Preproduction 💅', value: 'preproduction' },
+            { name: 'Development 🔨', value: 'development' }
+        ],
+        type: 'list',
+        default: 'development'
     },
     {
         name: 'features',

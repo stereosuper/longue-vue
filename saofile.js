@@ -5,8 +5,7 @@ const validate = require('validate-npm-package-name');
 module.exports = {
     prompts: require('./prompts'),
     templateData() {
-        // CMS
-        const cms = this.answers.cms;
+        const { cms, cmsToken, netlifyEnv } = this.answers;
 
         // Features
         const features = {
@@ -30,7 +29,7 @@ module.exports = {
             burger: this.answers.stereorepo.includes('burger')
         };
 
-        return { cms, features, packages, pmRun, stereorepo };
+        return { cms, cmsToken, features, netlifyEnv, packages, pmRun, stereorepo };
     },
     actions() {
         const validation = validate(this.answers.name);
@@ -60,7 +59,11 @@ module.exports = {
             actions.push({
                 type: 'add',
                 files: '**',
-                templateDir: `template/cms/${this.answers.cms}`
+                templateDir: `template/cms/${this.answers.cms}`,
+                filters: {
+                    'cms/redirections.js': 'features.includes("redirections-module")',
+                    'cms/queries/redirectionsQuery.js': 'features.includes("redirections-module")'
+                }
             });
         }
 
@@ -105,10 +108,11 @@ module.exports = {
         actions.push({
             type: 'move',
             patterns: {
+                '_.editorconfig': '.editorconfig',
+                '_.env': '.env',
+                '_.eslintrc': '.eslintrc',
                 gitignore: '.gitignore',
                 '_package.json': 'package.json',
-                '_.editorconfig': '.editorconfig',
-                '_.eslintrc': '.eslintrc',
                 '_.prettierrc': '.prettierrc'
             }
         });

@@ -6,10 +6,7 @@ import { graphqlEndpoint, graphqlEndpointPreview } from './cms';
 import introspectionQueryResultData from '../cms/data/fragment-types.json';
 
 // Polyfills
-import es6Promise from 'es6-promise';
-import fetchPolyfill from 'isomorphic-fetch';
 import fetch from 'node-fetch';
-es6Promise.polyfill();
 
 const token = process.env.DATO_TOKEN;
 

@@ -10,8 +10,9 @@ import { excludedRoutes } from './assets/js/constants';
 import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
 
-// TODO: Handle redirections module
-// import getRedirections from './cms/redirections';
+<%_ if (features.redirectionsModule && cms !== 'none') { _%>
+import getRedirections from './cms/redirections';
+<%_ } _%>
 
 /*
  ** NOTE:
@@ -174,7 +175,7 @@ export default {
         <%_ if (features.crawlerModule) { _%>
         '~/modules/crawler-module',
         <%_ } _%>
-        <%_ if (features.redirectionsModule) { _%>
+        <%_ if (features.redirectionsModule && cms !== 'none') { _%>
         '~/modules/redirections-module',
         <%_ } _%>
         <%_ if (features.staticDataModule) { _%>
@@ -194,7 +195,7 @@ export default {
         // blacklist: ['/wp-json/', '/api.w.org/'],
     },
     <%_ } _%>
-    <%_ if (features.redirectionsModule) { _%>
+    <%_ if (features.redirectionsModule && cms !== 'none') { _%>
     /*
      ** Redirections config
      */

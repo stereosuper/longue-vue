@@ -14,21 +14,22 @@
         "start:modern": "nuxt start --modern=server",
         "generate": "nuxt generate",
         "generate:modern": "nuxt generate --modern",
+        "generate:dev": "cross-env HOST=0.0.0.0 PORT=3000 nuxt generate",
         "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
         "lintfix": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
         "": ""
     },
     "dependencies": {
         <%_ if (stereorepo.burger) { _%>
-        "@stereorepo/burger": "^2.1.2",
+        "@stereorepo/burger": "^3.0.0",
         <%_ } _%>
         "@stereorepo/sac": "^3.0.0",
         "fastdom": "^1.0.9",
         <%_ if (packages.gsap) { _%>
-        "gsap": "^3.0.1",
+        "gsap": "^3.0.0",
         <%_ } _%>
         "nuxt": "^2.0.0",
-        "sharp": "^0.23.0",
+        "sharp": "^0.24.0"
         "": ""
     },
     "devDependencies": {
@@ -37,7 +38,7 @@
         "@nuxtjs/pwa": "^3.0.0-0",
         <%_ } _%>
         "@nuxtjs/robots": "^2.4.0",
-        "@nuxtjs/sitemap": "^1.3.0",
+        "@nuxtjs/sitemap": "^2.0.1",
         "@nuxtjs/style-resources": "^1.0.0",
         <%_ if (cms === 'dato' || cms === 'prismic') { _%>
         "apollo-cache-inmemory": "^1.6.2",
@@ -49,13 +50,13 @@
         "apollo-link-prismic": "^1.0.2",
         <%_ } _%>
         "babel-eslint": "^10.0.3",
-        "cross-env": "^6.0.3",
+        "cross-env": "^7.0.0",
         "dotenv": "^8.1.0",
         "eslint": "^6.3.0",
         "eslint-config-prettier": "^6.2.0",
         "eslint-loader": "^3.0.0",
         "eslint-plugin-prettier": "^3.1.0",
-        "eslint-plugin-vue": "^5.2.3",
+        "eslint-plugin-vue": "^6.1.2",
         <%_ if (cms === 'dato' || cms === 'prismic') { _%>
         "graphql": "^14.6.0",
         "graphql-tag": "^2.10.1",
