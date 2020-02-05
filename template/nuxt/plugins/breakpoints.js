@@ -6,7 +6,8 @@ const BREAKPOINTS = {
     m: 768,
     l: 960,
     xl: 1100,
-    xxl: Infinity
+    xxl: 1280,
+    threexl: 1400
 };
 
 const init = function({ list = BREAKPOINTS, defaultBreakpoint = 'xxl' } = {}) {
