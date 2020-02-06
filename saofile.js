@@ -162,13 +162,12 @@ module.exports = {
         console.log(chalk`\n🎉  {bold Successfully created project} {cyan ${this.answers.name}}\n`);
 
         console.log(chalk`  {bold To get started:}\n`);
-        console.log(chalk`${cdMsg}\t{cyan ${this.answers.pm} install}\n\t{cyan ${pmRun} dev}\n`);
+        console.log(chalk`${cdMsg}\t{cyan ${pmRun} dev}\n`);
 
-        console.log(chalk`  {bold To build & start for production:}\n`);
-        console.log(chalk`${cdMsg}\t{cyan ${pmRun} build}`);
-        console.log(chalk`\t{cyan ${pmRun} start}\n`);
+        console.log(chalk`  {bold To generate for production:}\n`);
+        console.log(chalk`${cdMsg}\t{cyan ${pmRun} generate:modern}\n`);
 
-        if (this.answers.test !== 'none') {
+        if (this.answers.test && this.answers.test !== 'none') {
             console.log(chalk`  {bold To test:}\n`);
             console.log(chalk`${cdMsg}\t{cyan ${pmRun} test}\n`);
         }
