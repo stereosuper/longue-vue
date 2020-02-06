@@ -5,7 +5,6 @@
             loaded,
             cover: !contains,
             contains,
-            'black-background': blackLoaderBackground,
             fallback: objectFitFallback
         }"
     >
@@ -22,10 +21,10 @@
                 v-if="objectFitFallback"
                 ref="image-fallback"
                 class="image-fallback"
-                :style="{ backgroundImage: `url('${image.url}')` }"
+                :style="{ backgroundImage: `url('${imageData.url}')` }"
             />
-            <p v-if="image.copyright" class="copyright">
-                {{ image.copyright }}
+            <p v-if="imageData.metadata.copyright" class="copyright">
+                {{ imageData.metadata.copyright }}
             </p>
         </figure>
     </div>
@@ -33,6 +32,8 @@
 
 <script>
 import { isIe11, isSafari } from '@stereorepo/sac';
+import { parseInputData, parseSrcSet, parseSrc, parseSizes } from '~/assets/js/components/image-parser';
+
 import ImageLazyLoadingDirective from '~/directives/ImageLazyLoadingDirective';
 
 export default {
@@ -49,26 +50,18 @@ export default {
         fullWidth: {
             type: Boolean,
             default: false
-        },
-        blackLoaderBackground: { type: Boolean, default: false }
+        }
     },
     data() {
         return {
+            imageData: parseInputData(this.image),
+            sizes: Object.keys(this.$breakpoints.list),
             loaded: false,
             imageWrapper: null,
             srcsetAttribute: '',
             sizesAttribute: '',
             srcAttribute: '',
             currentWidth: 0,
-            containerWidth: this.$breakpoints.list.threexl,
-            sizes: [
-                this.$breakpoints.list.s,
-                this.$breakpoints.list.m,
-                this.$breakpoints.list.l,
-                this.$breakpoints.list.xl,
-                this.$breakpoints.list.xxl,
-                this.$breakpoints.list.threexl
-            ],
             imageAlt: '',
             objectFitFallback: false,
             isSafari: false
@@ -100,59 +93,33 @@ export default {
             this.isSafari = isSafari();
         },
         generateAlt() {
-            this.imageAlt = this.image.alt ? this.image.alt.replace(/"/g, '&quot;') : '';
+            this.imageAlt = this.imageData.metadata.alt ? this.imageData.metadata.alt.replace(/"/g, '&quot;') : '';
         },
         async lazyLoaded() {
             this.$emit('lazy-loaded');
-            this.$stereorepo.superScroll.update();
             this.loaded = true;
         },
         lazyError() {},
-        datoImgix(url) {
-            return `${url}?lossless=true&fm=${isSafari || isIe11 ? 'png' : 'webp'}&auto=format`;
-        },
         computeSrcSet() {
-            let srcset = '';
-            const sizesLength = this.sizes.length;
-
-            this.sizes.forEach((width, index) => {
-                const { url } = this.image;
-                const resizeUrl = `${this.datoImgix(url)}&w=${width}`;
-
-                srcset += `${resizeUrl} ${width}w`;
-                srcset += sizesLength - 1 === index ? '' : ', ';
+            return parseSrcSet({
+                data: this.imageData,
+                breakpoints: this.sizes,
+                isFullWidth: this.fullWidth
             });
-
-            // full
-            if (this.fullWidth) {
-                srcset += `, ${this.image.url} ${this.image.width}w`;
-            }
-            return srcset;
         },
         computeSizes() {
-            let sizes = '';
-            const sizesLength = this.sizes.length;
-
-            this.sizes.forEach((width, index) => {
-                sizes += `(max-width: ${width}px) ${width}px`;
-                sizes += sizesLength - 1 === index ? '' : ', ';
+            return parseSizes({
+                data: this.imageData,
+                breakpoints: this.sizes,
+                isFullWidth: this.fullWidth
             });
-
-            // full
-            if (this.fullWidth) {
-                sizes += `, (max-width: ${this.image.width}px) ${this.image.width}px`;
-            }
-            return sizes;
         },
         computeSrc() {
-            let src = '';
-            const { url } = this.image;
-            src = this.datoImgix(url);
-            return src;
+            return parseSrc({ data: this.imageData });
         },
         async setMinHeight() {
             if (this.loaded) return;
-            const { height: originalHeight, width: originalWidth } = this.image;
+            const { height: originalHeight, width: originalWidth } = this.imageData.dimensions;
             const { width: currentWidth } = await this.$stereosuper.fastdom.measure(() =>
                 this.imageWrapper.getBoundingClientRect()
             );
@@ -188,7 +155,7 @@ export default {
         right: 0;
         bottom: 0;
         z-index: 1;
-        background: $light-gray;
+        background: $black;
     }
     &::after {
         top: 50%;
@@ -199,11 +166,6 @@ export default {
         transform: translate(-50%, -50%);
         animation: image-loader 1s infinite;
         z-index: 2;
-    }
-    &.black-background {
-        &::before {
-            background: $black;
-        }
     }
     &.loaded {
         &::before,

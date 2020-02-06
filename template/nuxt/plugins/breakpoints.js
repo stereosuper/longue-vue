@@ -1,6 +1,6 @@
 import Vue from 'vue';
 
-const BREAKPOINTS = {
+export const BREAKPOINTS = {
     xs: 400,
     s: 580,
     m: 768,
