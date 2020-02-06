@@ -83,6 +83,14 @@ module.exports = [
         default: []
     },
     {
+        name: 'sacConfig',
+        message: '👉 Customize Sac configuration',
+        type: 'checkbox',
+        pageSize: 10,
+        choices: [{ name: 'Initialize SuperScroll', value: 'super-scroll' }],
+        default: []
+    },
+    {
         name: 'packages',
         message: '👉 Choose some packages',
         type: 'checkbox',

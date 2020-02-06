@@ -10,6 +10,8 @@
 </template>
 
 <script>
+import { ioPolyfill } from '@stereorepo/sac';
+
 import Loader from '~/components/Layout/Loader';
 import Header from '~/components/Layout/Header';
 import Footer from '~/components/Layout/Footer';
@@ -29,10 +31,43 @@ export default {
         }
     }),
     mounted() {
-        this.$stereorepo.superWindow.initializeWindow(this.$store);
+        this.handleWindow();
+        <%_ if (sacConfig.superScroll) { _%>
+        this.handleScroll();
+        <%_ } _%>
         this.$nextTick(() => {
             this.$store.commit('setLoading', false);
         });
+    },
+    beforeDestroy() {
+        // NOTE: Avoiding memory leaks
+        <%_ if (sacConfig.superScroll) { _%>
+        this.$stereorepo.superScroll.destroyScroll();
+        <%_ } _%>
+        this.$stereorepo.superWindow.destroyWindow(this.$store);
+    },
+    methods: {
+        handleDevicesCompatibility() {
+            /**
+             * NOTE: The Intersection Observer API is used by
+             *  LazyImage and LazyVideo directives.
+             */
+            ioPolyfill();
+        },
+        handleWindow() {
+            this.$stereorepo.superWindow.initializeWindow(this.$store);
+        },
+        <%_ if (sacConfig.superScroll) { _%>
+        handleScroll() {
+            this.$stereorepo.superScroll.initializeScroll().then(firstScrollTop => {
+                this.$store.commit('scroll/setFirstScrollTop', firstScrollTop);
+            });
+
+            this.$stereorepo.superScroll.on('scroll', scrollTop => {
+                this.$store.commit('scroll/setScrollTop', scrollTop);
+            });
+        }
+        <%_ } _%>
     }
 };
 </script>

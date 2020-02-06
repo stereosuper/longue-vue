@@ -25,12 +25,17 @@ module.exports = {
         // Package manager
         const pmRun = this.answers.pm === 'yarn' ? 'yarn' : 'npm run';
 
+        // Stereorepo Sac configuration
+        const sacConfig = {
+            superScroll: this.answers.sacConfig.includes('super-scroll')
+        };
+
         // Stereorepo
         const stereorepo = {
             burger: this.answers.stereorepo.includes('burger')
         };
 
-        return { cms, cmsToken, features, netlifyEnv, packages, pmRun, prismicProjectUrl, stereorepo };
+        return { cms, cmsToken, features, netlifyEnv, packages, pmRun, prismicProjectUrl, sacConfig, stereorepo };
     },
     actions() {
         const validation = validate(this.answers.name);
@@ -68,7 +73,7 @@ module.exports = {
             });
         }
 
-        // Handling Nuxt modules related files
+        // Handling custom features related files
         if (this.answers.features.includes('crawler-module')) {
             actions.push({
                 type: 'add',
@@ -106,6 +111,15 @@ module.exports = {
                 type: 'add',
                 files: '**',
                 templateDir: 'template/nuxt-modules/static-medias-module'
+            });
+        }
+
+        // Handling Stereorepo Sac's config related files
+        if (this.answers.sacConfig.includes('super-scroll')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/sac-config/super-scroll'
             });
         }
 
