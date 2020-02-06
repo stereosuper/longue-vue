@@ -108,7 +108,7 @@ export default {
 
             const { height: originalHeight, width: originalWidth } = this.playerData.video;
 
-            const { width: currentWidth } = await this.$stereosuper.fastdom.measure(() =>
+            const { width: currentWidth } = await this.$stereorepo.superDOM.measure(() =>
                 this.videoWrapper.getBoundingClientRect()
             );
             this.currentWidth = currentWidth;

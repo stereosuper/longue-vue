@@ -120,13 +120,13 @@ export default {
         async setMinHeight() {
             if (this.loaded) return;
             const { height: originalHeight, width: originalWidth } = this.imageData.dimensions;
-            const { width: currentWidth } = await this.$stereosuper.fastdom.measure(() =>
+            const { width: currentWidth } = await this.$stereorepo.superDOM.measure(() =>
                 this.imageWrapper.getBoundingClientRect()
             );
             this.currentWidth = currentWidth;
             const minHeight = (currentWidth / originalWidth) * originalHeight;
 
-            await this.$stereosuper.fastdom.mutate(() => {
+            await this.$stereorepo.superDOM.mutate(() => {
                 this.imageWrapper.style.minHeight = `${minHeight}px`;
             });
         }

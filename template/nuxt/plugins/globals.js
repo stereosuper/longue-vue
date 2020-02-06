@@ -1,10 +1,13 @@
 import Vue from 'vue';
 // NOTE: Here's how to import SuperComponents
-<%_ if (sacConfig.superScroll) { _%>
-import { useSacVue, useSuperWindowVue, useSuperScrollVue } from '@stereorepo/sac';
-<%_ } else { _%>
-import { useSacVue, useSuperWindowVue } from '@stereorepo/sac';
-<%_ } _%>
+import {
+    useSacVue,
+    useSuperWindowVue,
+    <%_ if (sacConfig.superScroll) { _%>
+    useSuperScrollVue,
+    <%_ } _%>
+    useSuperDOMVue
+} from '@stereorepo/sac';
 
 import Icon from '~/components/Miscellaneous/Icon';
 
@@ -23,6 +26,7 @@ Vue.use(useSuperWindowVue);
 <%_ if (sacConfig.superScroll) { _%>
 Vue.use(useSuperScrollVue);
 <%_ } _%>
+Vue.use(useSuperDOMVue);
 
 // Set Vue.component here
 Vue.component('Icon', Icon);
