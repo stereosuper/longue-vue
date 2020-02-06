@@ -26,29 +26,6 @@ module.exports = [
         default: 'npm'
     },
     {
-        name: 'cms',
-        message: '👉 Choose the CMS',
-        choices: [
-            { name: 'DatoCMS 😘', value: 'dato' },
-            { name: 'Prismic 💪', value: 'prismic' },
-            { name: 'None 🤔', value: 'none' }
-        ],
-        type: 'list',
-        default: 'dato'
-    },
-    {
-        name: 'cmsToken',
-        message: '👉 Your CMS token',
-        default: 'MY_TOKEN_1234567890',
-        when: answers => answers.cms !== 'none'
-    },
-    {
-        name: 'prismicProjectUrl',
-        message: '👉 Your Prismic project url (without the ending slash)',
-        default: 'https://{outFolder}.prismic.io',
-        when: answers => answers.cms === 'prismic'
-    },
-    {
         name: 'netlifyEnv',
         message: '👉 Your Netlify environment value',
         choices: [
@@ -60,16 +37,40 @@ module.exports = [
         default: 'development'
     },
     {
+        name: 'cms',
+        message: '👉 Choose the CMS',
+        choices: [
+            { name: 'DatoCMS 😘', value: 'dato' },
+            { name: 'Prismic 💪', value: 'prismic' },
+            { name: 'None 🤔', value: 'none' }
+        ],
+        type: 'list',
+        default: 'dato'
+    },
+    {
+        name: 'prismicProjectUrl',
+        message: '👉 Your Prismic project url (without the ending slash)',
+        default: 'https://{outFolder}.prismic.io',
+        when: answers => answers.cms === 'prismic'
+    },
+    {
+        name: 'cmsToken',
+        message: '👉 Your CMS token',
+        default: 'MY_TOKEN_1234567890',
+        when: answers => answers.cms !== 'none'
+    },
+    {
         name: 'features',
-        message: '👉 Choose Nuxt.js modules',
+        message: '👉 Choose your custom features',
         type: 'checkbox',
         pageSize: 10,
         choices: [
-            { name: 'Crawler module', value: 'crawler-module' },
+            { name: 'Crawler Module', value: 'crawler-module' },
+            { name: 'Netlify Lambda Functions', value: 'netlify-lambda' },
             { name: 'Progressive Web App (PWA) Support', value: 'pwa' },
-            { name: 'Redirections module', value: 'redirections-module' },
-            { name: 'Static data module', value: 'static-data-module' },
-            { name: 'Static medias module', value: 'static-medias-module' }
+            { name: 'Redirections Module', value: 'redirections-module' },
+            { name: 'Static Data Module', value: 'static-data-module' },
+            { name: 'Static Medias Module', value: 'static-medias-module' }
         ],
         default: []
     },

@@ -2,6 +2,8 @@ import Vue from 'vue';
 // NOTE: Here's how to import SuperComponents
 import { useSacVue, useSuperWindowVue } from '@stereorepo/sac';
 
+import Icon from '~/components/Miscellaneous/Icon';
+
 Vue.prototype.$stereosuper = {
     ...Vue.prototype.$stereosuper,
     namespace: 'stereosuper'
@@ -16,3 +18,4 @@ Vue.use(useSacVue);
 Vue.use(useSuperWindowVue);
 
 // Set Vue.component here
+Vue.component('Icon', Icon);

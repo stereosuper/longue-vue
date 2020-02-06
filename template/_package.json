@@ -5,7 +5,13 @@
     "author": "<%= author %>",
     "private": true,
     "scripts": {
+        <%_ if (features.netlifyLambda) { _%>
+        "lambda": "netlify-lambda serve ./lambda",
+        <%_ } _%>
         "dev": "cross-env HOST=0.0.0.0 PORT=3000 nuxt",
+        <%_ if (features.netlifyLambda) { _%>
+        "dev:lambda": "npm run lambda & npm run dev",
+        <%_ } _%>
         "build": "nuxt build",
         "build:analyze": "nuxt build --analyze",
         "build:modern:analyze": "nuxt build --modern=server --analyze",
@@ -60,6 +66,9 @@
         <%_ if (cms === 'dato' || cms === 'prismic') { _%>
         "graphql": "^14.6.0",
         "graphql-tag": "^2.10.1",
+        <%_ } _%>
+        <%_ if (features.netlifyLambda) { _%>
+        "netlify-lambda": "^1.4.7",
         <%_ } _%>
         <%_ if (cms === 'dato') { _%>
         "node-fetch": "^2.6.0",

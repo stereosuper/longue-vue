@@ -10,6 +10,7 @@ module.exports = {
         // Features
         const features = {
             crawlerModule: this.answers.features.includes('crawler-module'),
+            netlifyLambda: this.answers.features.includes('netlify-lambda'),
             pwa: this.answers.features.includes('pwa'),
             redirectionsModule: this.answers.features.includes('redirections-module'),
             staticDataModule: this.answers.features.includes('static-data-module'),
@@ -73,6 +74,14 @@ module.exports = {
                 type: 'add',
                 files: '**',
                 templateDir: 'template/nuxt-modules/crawler-module'
+            });
+        }
+
+        if (this.answers.features.includes('netlify-functions')) {
+            actions.push({
+                type: 'add',
+                files: '**',
+                templateDir: 'template/netlify/functions'
             });
         }
 
