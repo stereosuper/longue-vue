@@ -32,7 +32,7 @@
 
 <script>
 import { isIe11, isSafari } from '@stereorepo/sac';
-import { parseInputData, parseSrcSet, parseSrc, parseSizes } from '~/assets/js/components/image-parser';
+import { parseInputData, parseSrcSet, parseSrc, parseSizes } from '~/assets/js/components/image-resolver';
 
 import ImageLazyLoadingDirective from '~/directives/ImageLazyLoadingDirective';
 
