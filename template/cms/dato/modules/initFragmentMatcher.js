@@ -52,7 +52,7 @@ const initFragmentMatcher = async () => {
     await fs
         .writeJSON(path.join('cms', 'data', 'fragment-types.json'), schemaResults.data)
         .then(() => {
-            logger.success('Fragment types successfully extracted!');
+            logger.success('Fragment types successfully extracted');
         })
         .catch(err => {
             logger.error('Error writing fragment types file', err);

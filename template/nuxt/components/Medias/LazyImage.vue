@@ -32,7 +32,7 @@
 
 <script>
 import { isIe11, isSafari } from '@stereorepo/sac';
-import { parseInputData, parseSrcSet, parseSrc, parseSizes } from '~/assets/js/components/image-resolver';
+import { resolveInputData, resolveSrcSet, resolveSrc, resolveSizes } from '~/assets/js/resolvers/image-resolver';
 
 import ImageLazyLoadingDirective from '~/directives/ImageLazyLoadingDirective';
 
@@ -54,7 +54,7 @@ export default {
     },
     data() {
         return {
-            imageData: parseInputData(this.image),
+            imageData: resolveInputData(this.image),
             sizes: Object.keys(this.$breakpoints.list),
             loaded: false,
             imageWrapper: null,
@@ -101,21 +101,21 @@ export default {
         },
         lazyError() {},
         computeSrcSet() {
-            return parseSrcSet({
+            return resolveSrcSet({
                 data: this.imageData,
                 breakpoints: this.sizes,
                 isFullWidth: this.fullWidth
             });
         },
         computeSizes() {
-            return parseSizes({
+            return resolveSizes({
                 data: this.imageData,
                 breakpoints: this.sizes,
                 isFullWidth: this.fullWidth
             });
         },
         computeSrc() {
-            return parseSrc({ data: this.imageData });
+            return resolveSrc({ data: this.imageData });
         },
         async setMinHeight() {
             if (this.loaded) return;

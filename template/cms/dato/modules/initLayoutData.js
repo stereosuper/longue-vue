@@ -57,7 +57,7 @@ const initLayoutData = async function() {
     await fs
         .writeJSON(path.join('cms', 'data', 'layout-data.json'), allLayoutsData)
         .then(() => {
-            logger.success('Layout data successfully extracted!');
+            logger.success('Layout data successfully extracted');
         })
         .catch(err => {
             logger.error('Error writing layoutData file', err);
@@ -65,7 +65,7 @@ const initLayoutData = async function() {
     await fs
         .writeJSON(path.join('cms', 'data', 'global-seo-data.json'), globalSeoData)
         .then(() => {
-            logger.success('Global seo data successfully extracted!');
+            logger.success('Global seo data successfully extracted');
         })
         .catch(err => {
             logger.error('Error writing globalSeoData file', err);

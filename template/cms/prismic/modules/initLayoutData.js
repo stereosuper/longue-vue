@@ -44,7 +44,7 @@ const initLayoutData = async function() {
     await fs
         .writeJSON(path.join('cms', 'data', 'layout-data.json'), allLayoutsData)
         .then(() => {
-            logger.success('Layout data successfully extracted!');
+            logger.success('Layout data successfully extracted');
         })
         .catch(err => {
             logger.error('Error writing layoutData file', err);
