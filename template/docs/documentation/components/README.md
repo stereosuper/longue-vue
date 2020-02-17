@@ -1,9 +1,14 @@
 # The specific components
 
-## LazyImage
+## Forewords
 
-## LazyVideo
+[Alban 🔥] Some of the components included in Create Longue Vue contain a particular logic. Those components are listed below.
 
-## Icon
+## The list
 
-## Routing
+| Components List             |
+| --------------------------- |
+| [Icon](./Icon.md)           |
+| [LazyImage](./LazyImage.md) |
+| [LazyVideo](./LazyVideo.md) |
+| [Routing](./Routing.md)     |

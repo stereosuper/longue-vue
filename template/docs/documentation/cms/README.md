@@ -55,7 +55,7 @@ Finally the function will return your page's data.
 
 This function will help you throw a 404 page. I recommend you to use it inside your dynamic page's _asyncData_ function.
 
-Example :
+Example:
 
 ```js
 // ~/pages/dynamic-page.vue
