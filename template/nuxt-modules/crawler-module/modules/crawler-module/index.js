@@ -1,27 +1,22 @@
-const { join } = require('path');
-const { writeJson } = require('fs-extra');
-const logger = require('consola').withScope('docs/crawler');
+import { join } from 'path';
+import { writeJson } from 'fs-extra';
+import logger from 'consola';
+import { runPromisesSequence } from '@stereorepo/sac';
+
+import routesGeneration from './routesGeneration';
 
 module.exports = async function(moduleOptions) {
     const options = {
-        baseUrl: '',
         blacklist: [],
         ...this.options.crawler,
         ...moduleOptions
     };
-    const isBuild = this.options._build;
-    const routesFilePath = join(this.nuxt.options.generate.dir, 'routes.json');
 
-    if (isBuild) {
-        // Add runtime plugin
-        this.addPlugin({
-            src: join(__dirname, 'plugin.js')
-        });
-    }
+    const routesFilePath = join(this.nuxt.options.generate.dir, 'routes.json');
 
     const routesList = [];
 
-    // Add route to json
+    // Add route to routes.json
     const addRoute = async route => {
         // Adding the new route to the routes list
         routesList.push(route);
@@ -33,39 +28,21 @@ module.exports = async function(moduleOptions) {
 
     // Hook generator to extract routes
     this.nuxt.hook('generate:before', async generator => {
-        const routes = {};
-
-        // Add hook when a page is generated
-        this.nuxt.hook('vue-renderer:ssr:context', async context => {
-            routes[context.url] = true;
-            context.links = context.links || [];
-
-            const promises = context.links.map(async link => {
-                const route = link
-                    .replace(/\/+/, '/')
-                    .replace(/\?.+/, '')
-                    .replace(/#.+/, '');
-
-                const isBlacklisted = !!options.blacklist.filter(item => {
-                    if (route.indexOf(item) !== -1) {
-                        return true;
-                    }
-                    return false;
-                }).length;
-
-                if (routes[route] || isBlacklisted) {
-                    return;
-                }
-                routes[route] = true;
-                await generator.generateRoute({ route, payload: null });
-            });
-            await Promise.all(promises);
-
-            // Add route to static route.json file
-            await addRoute(context.url);
+        // 🎣 Add hook when a page is generated
+        this.nuxt.hook('generate:extendRoutes', async routes => {
+            // Add each route to static route.json file
+            const handler = async ({ route }) => {
+                await addRoute(route);
+            };
+            await runPromisesSequence({ array: routes, handler, delay: 10 });
         });
 
-        // Profile generate
+        // Extending the pre-existing routes
+        this.nuxt.hook('generate:extendRoutes', async routes => {
+            await routesGeneration({ generator, routes, options });
+        });
+
+        // 📊 Profile generate
         let startTime;
         let count;
         this.nuxt.hook('generate:routeCreated', () => {

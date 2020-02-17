@@ -10,8 +10,14 @@ import { excludedRoutes } from './assets/js/constants';
 import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
 
+<%_ if (features.crawlerModule && cms !== 'none') { _%>
+import crawlerQuery from './config/crawler';
+<%_ } _%>
 <%_ if (features.redirectionsModule && cms !== 'none') { _%>
 import getRedirections from './cms/redirections';
+<%_ } _%>
+<%_ if (features.staticDataModule && cms !== 'none') { _%>
+import { blacklist as staticDataBlacklist } from './config/static-data';
 <%_ } _%>
 
 /*
@@ -172,7 +178,7 @@ export default {
      ** SEE: https://github.com/Atinux/nuxt-prismic-showcase/tree/master/modules
      */
     buildModules: [
-        <%_ if (features.crawlerModule) { _%>
+        <%_ if (features.crawlerModule && cms !== 'none') { _%>
         '~/modules/crawler-module',
         <%_ } _%>
         <%_ if (features.redirectionsModule && cms !== 'none') { _%>
@@ -185,19 +191,21 @@ export default {
         '~/modules/static-medias-module',
         <%_ } _%>
     ],
-    <%_ if (features.crawlerModule) { _%>
+    <%_ if (features.crawlerModule && cms !== 'none') { _%>
     /*
-     ** Crawler config
+     ** Crawler configuration
      */
     crawler: {
-        // Blacklisting all the urls containing the strings below
-        // SEE: Example below
-        // blacklist: ['/wp-json/', '/api.w.org/'],
+        /**
+         * The GraphQL query that will get all the slugs available for generation.
+         * SEE: ~/config/crawler
+         */
+        query: crawlerQuery
     },
     <%_ } _%>
     <%_ if (features.redirectionsModule && cms !== 'none') { _%>
     /*
-     ** Redirections config
+     ** Redirections configuration
      */
     redirections: {
         redirectionsList: async () => {
@@ -205,6 +213,22 @@ export default {
         }
     },
     <%_ } _%>
+    <%_ if (features.staticDataModule) { _%>
+    /*
+        ** Static data module configuration
+        */
+    staticData: {
+        /**
+         * Blacklisting all the urls containing the strings below.
+         * Those routes would not be static.
+         * SEE: ~/config/static-data
+         */
+        blacklist: staticDataBlacklist
+    },
+    <%_ } _%>
+    /*
+     ** Generate configuration
+     */
     generate: {
         fallback: '404.html',
         exclude: excludedRoutes(isProdEnv)
@@ -258,7 +282,7 @@ export default {
     ],
     <%_ if (features.pwa) { _%>
     /*
-     ** PWA config
+     ** PWA configuration
      */
     pwa: {
         // SEE: https://developer.mozilla.org/en-US/docs/Web/Manifest
@@ -319,7 +343,7 @@ export default {
         ]
     },
     /*
-     ** Sitemap config
+     ** Sitemap configuration
      */
     sitemap: {
         hostname: websiteUrl,
@@ -335,7 +359,7 @@ export default {
     },
     /*
      ** Build configuration
-     ** You can extend webpack config here
+     ** You can extend webpack configuration here
      */
     build: {
         /*
@@ -343,7 +367,7 @@ export default {
          */
         analyze: isDevEnv ? { analyzerMode: 'static' } : false,
         /*
-        ** Nuxt SplitChunks configuration
+        ** Transpile specific dependencies with Babel
          */
         transpile: [
             /@stereorepo/,

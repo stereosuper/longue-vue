@@ -37,7 +37,7 @@ let writePayload = async function(payload, dir, windowNamespace) {
 module.exports = function(moduleOptions) {
     const options = {
         blacklist: [],
-        ...this.options.static,
+        ...this.options.staticData,
         ...moduleOptions
     };
 
@@ -45,6 +45,7 @@ module.exports = function(moduleOptions) {
         if (!this.nuxt.options.generate.subFolders) {
             throw new Error('generate.subFolders should be true for @nuxt/static');
         }
+
         if (options.blacklist.includes(page.route)) {
             return page;
         }

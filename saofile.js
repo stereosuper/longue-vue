@@ -74,7 +74,7 @@ module.exports = {
         }
 
         // Handling custom features related files
-        if (this.answers.features.includes('crawler-module')) {
+        if (this.answers.features.includes('crawler-module') && this.answers.cms !== 'none') {
             actions.push({
                 type: 'add',
                 files: '**',
@@ -90,7 +90,7 @@ module.exports = {
             });
         }
 
-        if (this.answers.features.includes('redirections-module')) {
+        if (this.answers.features.includes('redirections-module') && this.answers.cms !== 'none') {
             actions.push({
                 type: 'add',
                 files: '**',
