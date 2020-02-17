@@ -4,7 +4,7 @@
 
 ## Forword
 
-[Alban 🔥] In the _doc_ directory you will find all the information you need about the project's specifics.
+[Alban 🔥] In the [_doc_ directory](./documentation) you will find all the information you need about the project's specifics.
 
 Those informations are generated from the answers gathered during the project initialization.
 

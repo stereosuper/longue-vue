@@ -41,7 +41,7 @@ yarn create longue-vue <my-project>
     - [Progressive Web App (PWA) Support](https://pwa.nuxtjs.org)
     - [Redirections Module](https://github.com/stereosuper/longue-vue/blob/master/template/docs/nuxt-modules/Redirections.md)
     - [Static Data Module](https://github.com/stereosuper/longue-vue/blob/master/template/docs/nuxt-modules/StaticData.md)
-1. Choose [Stéréorepo](https://github.com/stereosuper/stereorepo) modules (Sac is included by default):
+1. Choose [Stéréorepo](https://github.com/stereosuper/stereorepo) modules ([Sac](https://github.com/stereosuper/stereorepo/tree/master/packages/sac) is included by default):
     - [Burger](https://github.com/stereosuper/stereorepo/tree/master/packages/burger)
 1. Customize Sac configuration:
     - [Initialize SuperScroll](https://github.com/stereosuper/stereorepo/tree/master/packages/sac/src/components/SuperScroll)

@@ -59,16 +59,19 @@ module.exports = {
             }
         ];
 
+        // Generate documentation
+        actions.push({
+            type: 'add',
+            files: '**',
+            templateDir: 'template/docs'
+        });
+
         // Handling CMS related files
         if (this.answers.cms !== 'none') {
             actions.push({
                 type: 'add',
                 files: '**',
-                templateDir: `template/cms/${this.answers.cms}`,
-                filters: {
-                    'cms/redirections.js': 'features.includes("redirections-module")',
-                    'cms/queries/redirectionsQuery.js': 'features.includes("redirections-module")'
-                }
+                templateDir: `template/cms/${this.answers.cms}`
             });
         }
 
