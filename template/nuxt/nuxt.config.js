@@ -187,9 +187,6 @@ export default {
         <%_ if (features.staticDataModule) { _%>
         '~/modules/static-data-module',
         <%_ } _%>
-        <%_ if (features.staticMediasModule) { _%>
-        '~/modules/static-medias-module',
-        <%_ } _%>
     ],
     <%_ if (features.crawlerModule && cms !== 'none') { _%>
     /*

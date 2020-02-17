@@ -69,16 +69,13 @@
         <%_ if (features.netlifyLambda) { _%>
         "netlify-lambda": "^1.4.7",
         <%_ } _%>
-        <%_ if (cms === 'dato' || features.staticMediasModule) { _%>
+        <%_ if (cms === 'dato') { _%>
         "node-fetch": "^2.6.0",
         <%_ } _%>
         "node-sass": "^4.12.0",
         "nuxt-i18n": "^6.1.3",
         "prettier": "^1.18.2",
         "sass-loader": "^8.0.0",
-        <%_ if (features.staticMediasModule) { _%>
-        "sharp": "^0.24.0",
-        <%_ } _%>
         "": ""
     },
     "repository": {

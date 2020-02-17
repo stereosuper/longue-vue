@@ -13,8 +13,7 @@ module.exports = {
             netlifyLambda: this.answers.features.includes('netlify-lambda'),
             pwa: this.answers.features.includes('pwa'),
             redirectionsModule: this.answers.features.includes('redirections-module'),
-            staticDataModule: this.answers.features.includes('static-data-module'),
-            staticMediasModule: this.answers.features.includes('static-medias-module')
+            staticDataModule: this.answers.features.includes('static-data-module')
         };
 
         // Packages
@@ -103,14 +102,6 @@ module.exports = {
                 type: 'add',
                 files: '**',
                 templateDir: 'template/nuxt-modules/static-data-module'
-            });
-        }
-
-        if (this.answers.features.includes('static-medias-module')) {
-            actions.push({
-                type: 'add',
-                files: '**',
-                templateDir: 'template/nuxt-modules/static-medias-module'
             });
         }
 

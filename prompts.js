@@ -69,8 +69,7 @@ module.exports = [
             { name: 'Netlify Lambda Functions', value: 'netlify-lambda' },
             { name: 'Progressive Web App (PWA) Support', value: 'pwa' },
             { name: 'Redirections Module', value: 'redirections-module' },
-            { name: 'Static Data Module', value: 'static-data-module' },
-            { name: 'Static Medias Module', value: 'static-medias-module' }
+            { name: 'Static Data Module', value: 'static-data-module' }
         ],
         default: []
     },
