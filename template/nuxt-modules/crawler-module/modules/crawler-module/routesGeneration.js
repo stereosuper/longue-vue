@@ -42,7 +42,8 @@ const routeResolver = ({ dynamicRootPageName, localeCode, routeData }) => {
 };
 
 export default async ({ generator, routes, options }) => {
-    if (!options.query) logger.error(new Error("Crawler module: No query found in crawler module's options."));
+    // eslint-disable-next-line
+    if (!options.query) logger.error(new Error('Crawler module: No query found in crawler module\'s options.'));
 
     const pagesDirPath = join(__dirname, '../../pages');
     // The pre-existing routes list (before extending routes)

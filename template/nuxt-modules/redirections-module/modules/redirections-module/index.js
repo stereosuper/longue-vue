@@ -13,8 +13,8 @@ module.exports = async function(moduleOptions) {
         ...moduleOptions
     };
 
-    if (!options.query)
-        logger.error(new Error("Redirections module: No query found in redirections module's options."));
+    // eslint-disable-next-line
+    if (!options.query) logger.error(new Error('Redirections module: No query found in redirections module\'s options.'));
 
     const redirectionsFilePath = join(this.nuxt.options.generate.dir, options.outputName);
     let redirectionsList = await options.redirectionsList();
