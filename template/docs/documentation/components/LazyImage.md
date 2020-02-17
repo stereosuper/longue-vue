@@ -6,7 +6,7 @@
 
 Firstly, it will use two specific files:
 
--   The Vue.js directive _ImageLazyLoadingDirective_.
+-   The Vue.js directive _ImageLazyLoadingDirective_
 -   Its url data resolver _image-resolver.js_
 
 ## The concept
