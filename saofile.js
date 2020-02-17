@@ -63,7 +63,15 @@ module.exports = {
         actions.push({
             type: 'add',
             files: '**',
-            templateDir: 'template/docs'
+            templateDir: 'template/docs',
+            filters: {
+                'documentation/cms/README.md': 'cms !== "none"',
+                'documentation/custom-nuxt-modules/Crawler.md': 'features.includes("crawler-module")',
+                'documentation/custom-nuxt-modules/InitLayoutData.md': 'cms !== "none"',
+                'documentation/netlify/Lambda.md': 'features.includes("netlify-lambda")',
+                'documentation/custom-nuxt-modules/Redirections.md': 'features.includes("redirections-module")',
+                'documentation/custom-nuxt-modules/StaticData.md': 'features.includes("static-data-module")'
+            }
         });
 
         // Handling CMS related files

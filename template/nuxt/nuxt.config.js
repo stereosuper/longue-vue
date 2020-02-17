@@ -16,7 +16,7 @@ import crawlerQuery from './config/crawler';
 <%_ if (features.redirectionsModule && cms !== 'none') { _%>
 import redirectionsQuery from './config/redirections';
 <%_ } _%>
-<%_ if (features.staticDataModule && cms !== 'none') { _%>
+<%_ if (features.staticDataModule) { _%>
 import { blacklist as staticDataBlacklist } from './config/static-data';
 <%_ } _%>
 
