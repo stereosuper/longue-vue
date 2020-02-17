@@ -8,6 +8,7 @@ import routesGeneration from './routesGeneration';
 module.exports = async function(moduleOptions) {
     const options = {
         blacklist: [],
+        query: null,
         ...this.options.crawler,
         ...moduleOptions
     };

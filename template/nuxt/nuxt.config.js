@@ -14,7 +14,7 @@ import frTranslation from './locales/fr.json';
 import crawlerQuery from './config/crawler';
 <%_ } _%>
 <%_ if (features.redirectionsModule && cms !== 'none') { _%>
-import getRedirections from './cms/redirections';
+import redirectionsQuery from './config/redirections';
 <%_ } _%>
 <%_ if (features.staticDataModule && cms !== 'none') { _%>
 import { blacklist as staticDataBlacklist } from './config/static-data';
@@ -207,10 +207,12 @@ export default {
     /*
      ** Redirections configuration
      */
-    redirections: {
-        redirectionsList: async () => {
-            return await getRedirections();
-        }
+        redirections: {
+        /**
+         * The GraphQL query that will get all the redirections available.
+         * SEE: ~/config/redirections
+         */
+        query: redirectionsQuery
     },
     <%_ } _%>
     <%_ if (features.staticDataModule) { _%>

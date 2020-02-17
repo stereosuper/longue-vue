@@ -1,17 +1,31 @@
-const { readFile, writeFile, existsSync } = require('fs-extra');
-const { join } = require('path');
-const logger = require('consola');
+import { readFile, writeFile, existsSync } from 'fs-extra';
+import { join } from 'path';
+import logger from 'consola';
+
+import apolloClient from '../../config/apollo';
 
 module.exports = async function(moduleOptions) {
     const options = {
-        redirectionsList: [],
         outputName: '_redirects',
+        query: null,
+        redirectionsList: [],
         ...this.options.redirections,
         ...moduleOptions
     };
+
+    if (!options.query)
+        logger.error(new Error("Redirections module: No query found in redirections module's options."));
+
     const redirectionsFilePath = join(this.nuxt.options.generate.dir, options.outputName);
     let redirectionsList = await options.redirectionsList();
-    redirectionsList = redirectionsList ? redirectionsList : [];
+
+    redirectionsList = await apolloClient
+        .query({ query: options.query })
+        .then(({ data }) =>
+            data.redirectionGroup && data.redirectionGroup.redirections.length
+                ? data.redirectionGroup.redirections.map(({ redirectionText }) => redirectionText)
+                : []
+        );
 
     this.nuxt.hook('generate:done', async () => {
         const redirectionsStringified = redirectionsList.reduce(
