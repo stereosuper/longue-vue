@@ -27,21 +27,26 @@ yarn create longue-vue <my-project>
 1. Choose your package manager 👌
     - Yarn
     - Npm
+1. Choose your Netlify environment value:
+    - Production 🚀
+    - Preproduction 💅
+    - Developement 🔨
 1. Choose your CMS:
     - DatoCMS 😘
     - Prismic 💪
-    - WordPress 🤮
     - None 🤔
-1. Choose your Nuxt.js modules:
-    - [Apollo](https://github.com/nuxt-community/apollo-module)
-    - [Axios](https://axios.nuxtjs.org)
-    - [I18n](https://nuxt-community.github.io/nuxt-i18n/)
-    - [PWA](https://pwa.nuxtjs.org/)
-1. Choose [Stéréorepo](https://github.com/stereosuper/stereorepo) modules:
-    - [Sac](https://github.com/stereosuper/stereorepo/tree/master/packages/sac)
+1. Choose your custom features :
+    - [Crawler module](https://github.com/stereosuper/longue-vue/blob/master/template/docs/nuxt-modules/Crawler.md)
+    - [Netlify lambda functions](https://github.com/stereosuper/longue-vue/blob/master/template/docs/netlify/Lambda.md)
+    - [Progressive Web App (PWA) Support](https://pwa.nuxtjs.org)
+    - [Redirections Module](https://github.com/stereosuper/longue-vue/blob/master/template/docs/nuxt-modules/Redirections.md)
+    - [Static Data Module](https://github.com/stereosuper/longue-vue/blob/master/template/docs/nuxt-modules/StaticData.md)
+1. Choose [Stéréorepo](https://github.com/stereosuper/stereorepo) modules (Sac is included by default):
     - [Burger](https://github.com/stereosuper/stereorepo/tree/master/packages/burger)
+1. Customize Sac configuration:
+    - [Initialize SuperScroll](https://github.com/stereosuper/stereorepo/tree/master/packages/sac/src/components/SuperScroll)
 1. Choose some packages:
-    - GSAP
+    - [GSAP](https://greensock.com/gsap)
 
 ## CLI Options
 
