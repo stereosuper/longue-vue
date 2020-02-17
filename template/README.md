@@ -10,7 +10,7 @@ Those informations are generated from the answers gathered during the project in
 
 The particular elements (modules, components, etc.) added afterwards won't be referenced in this directory.
 
-You can find all of them [here](https://github.com/stereosuper/longue-vue/tree/master/template/docs) and add them to the documentation directory.
+You can find all of them [here](https://github.com/stereosuper/longue-vue/tree/master/template/docs/documentation) and add them to the documentation directory.
 
 ## Setup
 

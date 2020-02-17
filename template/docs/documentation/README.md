@@ -7,12 +7,27 @@
 
 ## Table of contents ✅
 
-<% if(cms !== "none"){ %>
+### General information
+<%_ if(cms !== "none") { _%>
 -   [CMS](./cms)
-<% } %>
--   Components
-<% if(features.netlifyLambda){ %>
--   Netlify
-<% } %>
--   Nuxt modules
--   Plugins
+<%_ } _%>
+-   [Components](./components)
+-   [Plugins](./plugins)
+
+### Specific elements
+<%_ if(features.crawlerModule) { _%>
+-   [Crawler Module](./custom-nuxt-modules/Crawler.md)
+<%_ } _%>
+<%_ if(cms !== 'none') { _%>
+-   [Init Layout Data Module](./custom-nuxt-modules/InitLayoutData.md)
+<%_ } _%>
+<%_ if(features.netlifyLambda) { _%>
+-   [Netlify Lambda](./netlify/Lambda.md)
+<%_ } _%>
+<%_ if(features.redirectionsModule) { _%>
+-   [Redirections Module](./custom-nuxt-modules/Redirections.md)
+<%_ } _%>
+<%_ if(features.staticDataModule) { _%>
+-   [Static Data Module](./custom-nuxt-modules/StaticData.md)
+<%_ } _%>
+
