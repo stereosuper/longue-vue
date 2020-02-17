@@ -1,4 +1,4 @@
-# The components
+# The specific components
 
 ## LazyImage
 

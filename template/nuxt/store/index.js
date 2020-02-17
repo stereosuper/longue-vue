@@ -1,6 +1,5 @@
 export const state = () => ({
-    loading: true,
-    localePath: '/'
+    loading: true
 });
 
 // export const getters = () => {};
@@ -8,9 +7,6 @@ export const state = () => ({
 export const mutations = {
     setLoading(state, loading) {
         state.loading = loading;
-    },
-    setLocalePath(state, { locale, defaultLocale }) {
-        state.localePath = `${defaultLocale !== locale ? `/${locale}/` : '/'}`;
     }
 };
 

@@ -21,12 +21,6 @@ export const getLocaleIso = ({ app, store }) => {
     return iso;
 };
 
-const handleLocalePath = ({ app, store }) => {
-    const { locale } = store.state.i18n;
-    const { defaultLocale } = app.i18n ? app.i18n : app.$i18n;
-    store.commit('setLocalePath', { locale, defaultLocale });
-};
-
 /**
  * Slugs
  */
@@ -58,8 +52,6 @@ const storeSlugs = async ({ app, pageContent: { _allSlugLocales }, store }) => {
 const makeQuery = async ({ app, query, slug = null, store }) => {
     // Getting the locale iso code for your cms
     const iso = getLocaleIso({ app, store });
-    // Setting the locale path used for internal links
-    handleLocalePath({ app, store });
 
     const variables = { lang: iso };
 
