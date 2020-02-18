@@ -6,10 +6,16 @@ let datoClient = null;
 
 const ids = {
     link: null,
-    homePage: null,
-    basicPage: null,
-    dynamicListPage: null,
-    dynamicSinglePage: null
+    pages: {
+        homePage: null,
+        basicPage: null,
+        dynamicListPage: null,
+        dynamicSinglePage: null
+    },
+    layout: {
+        header: null,
+        footer: null
+    }
 };
 
 let linksAvailableEntities = [];
@@ -151,7 +157,7 @@ const createHomePageModel = async () => {
         titleField: null
     });
 
-    ids.homePage = id;
+    ids.pages.homePage = id;
 
     // Entity title field declaration
     datoClient.fields.create(id, {
@@ -203,7 +209,7 @@ const createBasicPageModel = async () => {
         titleField: null
     });
 
-    ids.basicPage = id;
+    ids.pages.basicPage = id;
 
     // Entity title field declaration
     datoClient.fields.create(id, {
@@ -255,7 +261,7 @@ const createDynamicListPageModel = async () => {
         titleField: null
     });
 
-    ids.dynamicListPage = id;
+    ids.pages.dynamicListPage = id;
 
     // Entity title field declaration
     datoClient.fields.create(id, {
@@ -307,7 +313,7 @@ const createDynamicSinglePageModel = async () => {
         titleField: null
     });
 
-    ids.dynamicSinglePage = id;
+    ids.pages.dynamicSinglePage = id;
 
     // Entity title field declaration
     datoClient.fields.create(id, {
@@ -465,7 +471,7 @@ const createLinkModel = async () => {
     });
 
     // Internal link field declaration
-    linksAvailableEntities = [ids.homePage, ids.basicPage, ids.dynamicListPage, ids.dynamicSinglePage].filter(Boolean);
+    linksAvailableEntities = Object.values(ids.pages).filter(Boolean);
 
     datoClient.fields.create(linkModelID, {
         apiKey: 'internal_link',
@@ -478,6 +484,160 @@ const createLinkModel = async () => {
         hint: 'The internal link toggle',
         position: 6
     });
+};
+
+const createHeaderModel = async () => {
+    // Model declaration
+    const { id } = await datoClient.itemTypes.create({
+        name: 'Header',
+        apiKey: 'header',
+        singleton: true,
+        draftModeActive: true,
+        allLocalesRequired: true,
+        collectionAppeareance: 'table',
+        modularBlock: false,
+        orderingDirection: null,
+        sortable: false,
+        tree: false,
+        orderingField: null,
+        titleField: null
+    });
+
+    ids.layout.header = id;
+
+    // Entity title field declaration
+    datoClient.fields.create(id, {
+        apiKey: 'entity_title',
+        label: 'Entity title',
+        localized: false,
+        validators: {
+            required: {}
+        },
+        appeareance: {
+            editor: 'single_line',
+            parameters: { heading: false },
+            addons: []
+        },
+        defaultValue: null,
+        fieldType: 'string',
+        hint: 'This is your entity title',
+        position: 1
+    });
+
+    // Entity title field declaration
+    datoClient.fields.create(id, {
+        label: 'Menu links',
+        fieldType: 'links',
+        defaultValue: null,
+        localized: false,
+        apiKey: 'menu_links',
+        hint: null,
+        validators: { itemsItemType: { itemTypes: [ids.link] } },
+        appeareance: { editor: 'links_select', parameters: {}, addons: [] },
+        position: 2
+    });
+};
+
+const createFooterModel = async () => {
+    // Model declaration
+    const { id } = await datoClient.itemTypes.create({
+        name: 'Footer',
+        apiKey: 'footer',
+        singleton: true,
+        draftModeActive: true,
+        allLocalesRequired: true,
+        collectionAppeareance: 'table',
+        modularBlock: false,
+        orderingDirection: null,
+        sortable: false,
+        tree: false,
+        orderingField: null,
+        titleField: null
+    });
+
+    ids.layout.footer = id;
+
+    // Entity title field declaration
+    datoClient.fields.create(id, {
+        apiKey: 'entity_title',
+        label: 'Entity title',
+        localized: false,
+        validators: {
+            required: {}
+        },
+        appeareance: {
+            editor: 'single_line',
+            parameters: { heading: false },
+            addons: []
+        },
+        defaultValue: null,
+        fieldType: 'string',
+        hint: 'This is your entity title',
+        position: 1
+    });
+};
+
+const createMenuItems = async () => {
+    const pagesIds = Object.values(ids.pages).filter(Boolean);
+    const layoutsIds = Object.values(ids.layout).filter(Boolean);
+
+    // Getting current menus items
+    const menuItemsIds = await datoClient.menuItems.all().then(menuItems =>
+        menuItems.reduce(
+            (acc, { id, itemType }) => {
+                if (Object.values(ids.layout).includes(itemType)) {
+                    acc.layout.push(id);
+                } else if (Object.values(ids.pages).includes(itemType)) {
+                    acc.pages.push(id);
+                }
+                return acc;
+            },
+            { layout: [], pages: [] }
+        )
+    );
+
+    // Creating menu items
+    if (layoutsIds.length) {
+        const { id: layoutMenuItemId } = await datoClient.menuItems.create({
+            label: 'Layout',
+            externalUrl: null,
+            position: 1,
+            openInNewTab: false,
+            itemType: null,
+            parent: null,
+            children: layoutsIds
+        });
+
+        menuItemsIds.layout.forEach(async id => {
+            const currentItemState = await datoClient.menuItems.find(id);
+
+            await datoClient.menuItems.update(id, {
+                ...currentItemState,
+                parent: layoutMenuItemId
+            });
+        });
+    }
+
+    if (pagesIds.length) {
+        const { id: pagesMenuItemId } = await datoClient.menuItems.create({
+            label: 'Pages',
+            externalUrl: null,
+            position: 2,
+            openInNewTab: false,
+            itemType: null,
+            parent: null,
+            children: pagesIds
+        });
+
+        menuItemsIds.pages.forEach(async id => {
+            const currentItemState = await datoClient.menuItems.find(id);
+
+            await datoClient.menuItems.update(id, {
+                ...currentItemState,
+                parent: pagesMenuItemId
+            });
+        });
+    }
 };
 
 const handleModels = async () => {
@@ -504,9 +664,21 @@ const handleModels = async () => {
             await createLinkModel();
         }
 
+        if (!allModelsKeys.includes('header')) {
+            await createHeaderModel();
+        }
+
+        if (!allModelsKeys.includes('footer')) {
+            await createFooterModel();
+        }
+
+        await createMenuItems();
+
+        // const test = await datoClient.menuItems.all();
+        // console.log('TCL: handleModels -> test', test);
         // const test = await datoClient.itemTypes.all();
         // console.log('TCL: handleModels -> test', test);
-        // const [test] = await datoClient.fields.all('195185');
+        // const [test] = await datoClient.fields.all('195220');
         // console.log(test);
     } catch (error) {
         console.error(error);
