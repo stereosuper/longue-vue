@@ -1,6 +1,7 @@
 const { relative } = require('path');
 const spawn = require('cross-spawn');
 const validate = require('validate-npm-package-name');
+const initializeDato = require('./cma/dato/dato-cma');
 
 module.exports = {
     prompts: require('./prompts'),
@@ -157,6 +158,10 @@ module.exports = {
     },
     async completed() {
         this.gitInit();
+
+        if (this.answers.cms === 'dato') {
+            await initializeDato(this.answers.datoFullAccessToken);
+        }
 
         await this.npmInstall({ npmClient: this.answers.pm });
 

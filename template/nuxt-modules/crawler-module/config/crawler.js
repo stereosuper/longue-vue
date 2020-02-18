@@ -14,7 +14,7 @@ import gql from 'graphql-tag';
 // }
 
 export default gql`
-    query Redirections {
+    query Crawler {
         _site {
             __typename
         }

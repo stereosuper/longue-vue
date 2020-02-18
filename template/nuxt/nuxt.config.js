@@ -6,7 +6,7 @@ dotenv.config();
 
 import robotsOptions from './config/robots';
 
-import { excludedRoutes } from './assets/js/constants';
+import { excludedRoutes } from './assets/js/constants/routes';
 import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
 

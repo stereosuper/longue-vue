@@ -3,9 +3,10 @@ import { readdirSync } from 'fs-extra';
 import { runPromisesSequence } from '@stereorepo/sac';
 import logger from 'consola';
 
-import apolloClient from '../../config/apollo';
 import { defaultLocale, getPagesList, locales } from '../../config/i18n';
 import { routeByApiModels } from '../../assets/js/constants/routes';
+
+const apolloClientImport = () => import('../../config/apollo');
 
 const routeResolver = ({ dynamicRootPageName, localeCode, routeData }) => {
     // The page's _modelApiKey and slug will determine the way to resolve the page
@@ -52,6 +53,8 @@ export default async ({ generator, routes, options }) => {
     // Getting the ~/pages directory's root dynamic page name
     const [dynamicRootPageFilename] = readdirSync(pagesDirPath).filter(file => file.indexOf('_') === 0);
     const dynamicRootPageName = dynamicRootPageFilename ? dynamicRootPageFilename.replace('.vue', '') : null;
+
+    const { default: apolloClient } = await apolloClientImport();
 
     const localesHandler = async ({ code, iso }) => {
         // Getting the crawler's config gql query results

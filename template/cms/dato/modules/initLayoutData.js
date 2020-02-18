@@ -1,47 +1,22 @@
 import fs from 'fs-extra';
 import path from 'path';
 import logger from 'consola';
-import { ApolloClient } from 'apollo-client';
-import { InMemoryCache, IntrospectionFragmentMatcher } from 'apollo-cache-inmemory';
-import { createHttpLink } from 'apollo-link-http';
-import fetch from 'node-fetch';
 import { runPromisesSequence } from '@stereorepo/sac';
 
-import introspectionQueryResultData from '../cms/data/fragment-types.json';
 import layoutQuery from '../cms/queries/layoutQuery';
 import globalSeoQuery from '../cms/queries/globalSeoQuery';
 
+import apolloClient from '../config/apollo';
 import { locales } from '../config/i18n';
 
 const initLayoutData = async function() {
-    const token = process.env.DATO_TOKEN;
-
-    const link = createHttpLink({
-        fetch,
-        uri: 'https://graphql.datocms.com/',
-        headers: {
-            'Content-Type': 'application/json',
-            Accept: 'application/json',
-            Authorization: `Bearer ${token}`
-        }
-    });
-
-    const fragmentMatcher = new IntrospectionFragmentMatcher({
-        introspectionQueryResultData
-    });
-
-    const client = new ApolloClient({
-        link,
-        cache: new InMemoryCache({ fragmentMatcher })
-    });
-
     let allLayoutsData = {};
     let globalSeoData = {};
     const handler = async ({ code, iso }) => {
-        const layoutData = await client
+        const layoutData = await apolloClient
             .query({ query: layoutQuery, variables: { lang: iso } })
             .then(result => result.data);
-        const seoData = await client
+        const seoData = await apolloClient
             .query({ query: globalSeoQuery, variables: { lang: iso } })
             .then(result => result.data);
 

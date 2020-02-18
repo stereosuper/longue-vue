@@ -55,9 +55,15 @@ module.exports = [
     },
     {
         name: 'cmsToken',
-        message: '👉 Your CMS token',
+        message: '👉 Your CMS read token',
         default: 'MY_TOKEN_1234567890',
         when: answers => answers.cms !== 'none'
+    },
+    {
+        name: 'datoFullAccessToken',
+        message: '👉 DatoCMS full-access token',
+        default: 'MY_FULL_ACCESS_TOKEN_1234567890',
+        when: answers => answers.cms === 'dato'
     },
     {
         name: 'features',
