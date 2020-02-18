@@ -27,6 +27,10 @@ const requiredPlugins = [
     }
 ];
 
+const datoLogger = message => {
+    console.log(chalk`  {white ✅ DatoCMS: ${message}}`);
+};
+
 const handleSiteSettings = async () => {
     try {
         const { id: siteId } = await datoClient.site.find();
@@ -190,6 +194,8 @@ const createHomePageModel = async () => {
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
         position: 2
     });
+
+    datoLogger('Home page model created');
 };
 
 const createBasicPageModel = async () => {
@@ -242,6 +248,8 @@ const createBasicPageModel = async () => {
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
         position: 2
     });
+
+    datoLogger('Basic page model created');
 };
 
 const createDynamicListPageModel = async () => {
@@ -294,6 +302,8 @@ const createDynamicListPageModel = async () => {
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
         position: 2
     });
+
+    datoLogger('Dynamic list page model created');
 };
 
 const createDynamicSinglePageModel = async () => {
@@ -346,6 +356,8 @@ const createDynamicSinglePageModel = async () => {
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
         position: 2
     });
+
+    datoLogger('Dynamic single page model created');
 };
 
 const createLinkModel = async () => {
@@ -484,6 +496,8 @@ const createLinkModel = async () => {
         hint: 'The internal link toggle',
         position: 6
     });
+
+    datoLogger('Link model created');
 };
 
 const createHeaderModel = async () => {
@@ -536,6 +550,8 @@ const createHeaderModel = async () => {
         appeareance: { editor: 'links_select', parameters: {}, addons: [] },
         position: 2
     });
+
+    datoLogger('Header model created');
 };
 
 const createFooterModel = async () => {
@@ -575,6 +591,8 @@ const createFooterModel = async () => {
         hint: 'This is your entity title',
         position: 1
     });
+
+    datoLogger('Footer model created');
 };
 
 const createMenuItems = async () => {
@@ -616,6 +634,8 @@ const createMenuItems = async () => {
                 parent: layoutMenuItemId
             });
         });
+
+        datoLogger('Layout menu item created');
     }
 
     if (pagesIds.length) {
@@ -637,6 +657,8 @@ const createMenuItems = async () => {
                 parent: pagesMenuItemId
             });
         });
+
+        datoLogger('Pages menu item created');
     }
 };
 
@@ -673,23 +695,13 @@ const handleModels = async () => {
         }
 
         await createMenuItems();
-
-        // const test = await datoClient.menuItems.all();
-        // console.log('TCL: handleModels -> test', test);
-        // const test = await datoClient.itemTypes.all();
-        // console.log('TCL: handleModels -> test', test);
-        // const [test] = await datoClient.fields.all('195220');
-        // console.log(test);
     } catch (error) {
         console.error(error);
     }
 };
 
 module.exports = async datoFullAccessToken => {
-    const fullAccessToken = '24db31ca64682c41003aa99cce014d';
-
-    // const client = new SiteClient(datoFullAccessToken);
-    datoClient = new SiteClient(fullAccessToken);
+    datoClient = new SiteClient(datoFullAccessToken);
     if (!datoClient) return;
 
     try {
