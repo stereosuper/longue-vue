@@ -7,7 +7,8 @@
         "cli.js",
         "prompts.js",
         "saofile.js",
-        "template/"
+        "template/",
+        "cma/"
     ],
     "repository": {
         "url": "git+https://github.com/stereosuper/longue-vue.git",

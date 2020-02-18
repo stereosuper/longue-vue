@@ -1,7 +1,7 @@
-const { relative, join } = require('path');
+const { relative } = require('path');
 const spawn = require('cross-spawn');
 const validate = require('validate-npm-package-name');
-const initializeDato = require(join(__dirname, '/cma/dato/dato-cma'));
+const initializeDato = require('./cma/dato/dato-cma');
 
 module.exports = {
     prompts: require('./prompts'),
