@@ -1,5 +1,9 @@
 // 🚦Routing constants
 export const routes = {
+    basicPage: {
+        i18nFormat: '_slug',
+        routerFormat: 'slug'
+    },
     dynamicListPage: {
         i18nFormat: 'dynamic/index',
         routerFormat: 'dynamic'
@@ -11,8 +15,9 @@ export const routes = {
 };
 
 export const routeByApiModels = {
+    basic_page: routes.basicPage,
     dynamics_list_page: routes.dynamicListPage,
-    dynamic_page: routes.dynamicSinglePage
+    dynamic_single_page: routes.dynamicSinglePage
 };
 
 export const excludedRoutes = (isProdEnv = process.env.isProdEnv) =>

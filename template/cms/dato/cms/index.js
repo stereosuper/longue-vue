@@ -1,4 +1,6 @@
-import allSlugsQuery from '~/cms/queries/allSlugsQuery';
+import { pascalize } from '@stereorepo/sac';
+
+import getAllSlugsQuery from '~/cms/queries/getAllSlugsQuery';
 
 import errorPageQuery from '~/cms/queries/errorPageQuery';
 import homePageQuery from '~/cms/queries/homePageQuery';
@@ -8,6 +10,8 @@ import dynamicSinglePageQuery from '~/cms/queries/dynamicSinglePageQuery';
 import dynamicListPageQuery from '~/cms/queries/dynamicListPageQuery';
 
 import apolloClient from '~/config/apollo';
+
+import { routeByApiModels } from '~/assets/js/constants/routes';
 
 /**
  * I18n
@@ -90,7 +94,6 @@ export const validateDynamicPage = async ({ app, routePath, routeName, store }) 
     const variables = { lang: iso };
 
     // Setting the default query
-    let query = allSlugsQuery('allBasicPages');
 
     // Removing the locale from the current route name
     const currentRouteName = routeName
@@ -98,12 +101,13 @@ export const validateDynamicPage = async ({ app, routePath, routeName, store }) 
         .slice(0, -1)
         .join('-');
 
-    // Switching query if we're on a specific dynamic page's route
-    switch (currentRouteName) {
-        case 'dynamic-dynamic':
-            query = allSlugsQuery('allDynamicPages');
-            break;
-    }
+    // Getting the query page name
+    const [[apiModel]] = Object.entries(routeByApiModels).filter(
+        ([, { routerFormat }]) => routerFormat === currentRouteName
+    );
+
+    const queryPageName = `all${pascalize(apiModel.replace(/_/g, ' '))}s`;
+    const query = getAllSlugsQuery(queryPageName);
 
     const data = await apolloClient
         .query({ variables, query })
@@ -159,19 +163,19 @@ export const getDynamicSingle = async ({ app, routePath, store }) => {
 
     // ~/pages/dynamic/_dynamic graphql query call
     // SEE: ~/cms/queries/dynamicSinglePageQuery
-    const { dynamicPage } = await makeQuery({
+    const { dynamicSinglePage } = await makeQuery({
         app,
         query: dynamicSinglePageQuery,
         slug,
         store
     });
 
-    if (dynamicPage) {
+    if (dynamicSinglePage) {
         // NOTE: ⚠️ Do not forget to call storeSlugs to translate pages slugs
-        await storeSlugs({ app, pageContent: dynamicPage, store });
+        await storeSlugs({ app, pageContent: dynamicSinglePage, store });
     }
 
-    return Object.freeze(dynamicPage);
+    return Object.freeze(dynamicSinglePage);
 };
 
 export const getDynamicList = async ({ app, store }) => {

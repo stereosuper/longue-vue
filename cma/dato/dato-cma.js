@@ -203,7 +203,7 @@ const createBasicPageModel = async () => {
     const { id } = await datoClient.itemTypes.create({
         name: 'Basic page',
         apiKey: 'basic_page',
-        singleton: true,
+        singleton: false,
         draftModeActive: true,
         allLocalesRequired: true,
         collectionAppeareance: 'table',
@@ -236,6 +236,27 @@ const createBasicPageModel = async () => {
         position: 1
     });
 
+    // Slug field declaration
+    datoClient.fields.create(id, {
+        label: 'Slug',
+        fieldType: 'string',
+        defaultValue: null,
+        localized: true,
+        apiKey: 'slug',
+        hint: null,
+        validators: {
+            required: {},
+            unique: {},
+            format: { customPattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$' }
+        },
+        appeareance: {
+            editor: 'single_line',
+            parameters: { heading: false },
+            addons: []
+        },
+        position: 2
+    });
+
     // SEO field declaration
     datoClient.fields.create(id, {
         label: 'SEO',
@@ -246,7 +267,7 @@ const createBasicPageModel = async () => {
         hint: null,
         validators: {},
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
-        position: 2
+        position: 3
     });
 
     datoLogger('Basic page model created');
@@ -311,7 +332,7 @@ const createDynamicSinglePageModel = async () => {
     const { id } = await datoClient.itemTypes.create({
         name: 'Dynamic Single Page',
         apiKey: 'dynamic_single_page',
-        singleton: true,
+        singleton: false,
         draftModeActive: true,
         allLocalesRequired: true,
         collectionAppeareance: 'table',
@@ -344,6 +365,27 @@ const createDynamicSinglePageModel = async () => {
         position: 1
     });
 
+    // Slug field declaration
+    datoClient.fields.create(id, {
+        label: 'Slug',
+        fieldType: 'string',
+        defaultValue: null,
+        localized: true,
+        apiKey: 'slug',
+        hint: null,
+        validators: {
+            required: {},
+            unique: {},
+            format: { customPattern: '^[a-z0-9]+(?:-[a-z0-9]+)*$' }
+        },
+        appeareance: {
+            editor: 'single_line',
+            parameters: { heading: false },
+            addons: []
+        },
+        position: 2
+    });
+
     // SEO field declaration
     datoClient.fields.create(id, {
         label: 'SEO',
@@ -354,7 +396,7 @@ const createDynamicSinglePageModel = async () => {
         hint: null,
         validators: {},
         appeareance: { editor: 'seo', parameters: {}, addons: [] },
-        position: 2
+        position: 3
     });
 
     datoLogger('Dynamic single page model created');

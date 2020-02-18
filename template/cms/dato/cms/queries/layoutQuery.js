@@ -1,4 +1,5 @@
 import gql from 'graphql-tag';
+import linkFragment from '../fragments/linkFragment';
 
 /**
  * NOTE: You can get your layout data from here
@@ -7,19 +8,16 @@ import gql from 'graphql-tag';
  * To avoid apollo errors from an empty CMS we commented it.
  */
 
-// query Layout($lang: SiteLocale) {
-//     header(locale: $lang) {
-//         __typename
-//     }
-//     footer(locale: $lang) {
-//         __typename
-//     }
-// }
-
 export default gql`
+    ${linkFragment}
     query Layout($lang: SiteLocale) {
-        _site(locale: $lang) {
-            __typename
+        header(locale: $lang) {
+            menuLinks {
+                ...link
+            }
+        }
+        footer(locale: $lang) {
+            entityTitle
         }
     }
 `;
