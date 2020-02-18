@@ -10,6 +10,12 @@ import { excludedRoutes } from './assets/js/constants/routes';
 import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
 
+<%_ if (cms === 'dato') { _%>
+import { layoutDataQuery, globalSeoQuery } from './config/layout-data';
+<%_ } _%>
+<%_ if (cms === 'prismic') { _%>
+import { layoutDataQuery } from './config/layout-data';
+<%_ } _%>
 <%_ if (features.crawlerModule && cms !== 'none') { _%>
 import crawlerQuery from './config/crawler';
 <%_ } _%>
@@ -279,6 +285,17 @@ export default {
             })
         ]
     ],
+    <%_ if (cms === 'dato' || cms === 'prismic') { _%>
+    /*
+     ** Layout data configuration
+     */
+    layoutData: {
+        layoutDataQuery,
+        <%_ if (cms === 'dato') { _%>
+        globalSeoQuery
+        <%_ } _%>
+    },
+    <%_ } _%>
     <%_ if (features.pwa) { _%>
     /*
      ** PWA configuration
