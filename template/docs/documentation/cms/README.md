@@ -4,9 +4,11 @@
 
 [Alban 🔥] In there you'll find the files responsible for getting data from your CMS.
 
-There is three main part in the directory :
+There is five main parts in the directory :
 
 -   The _data_ directory
+-   The _fields_ directory
+-   The _fragments_ directory
 -   The _queries_ directory
 -   The _index.js_ file
 
@@ -17,6 +19,14 @@ Firstly, the directory doesn't exist before you run `npm run dev` or `npm run ge
 During Nuxt initialization the data directory will be created and filled with json files.
 
 Those files contains your [layout data](../custom-nuxt-modules/InitLayoutData.md) like header data, footer data... any data you got with the layout directory actually.
+
+### The _fields_ directory
+
+This directory contains every GraphQL specific and redundant fields used in your GraphQL queries.
+
+### The _fragments_ directory
+
+This directory contains every GraphQL fragments used in your GraphQL queries.
 
 ### The _queries_ directory
 

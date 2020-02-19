@@ -19,7 +19,7 @@
 -   [Crawler Module](./custom-nuxt-modules/Crawler.md)
 <%_ } _%>
 <%_ if(cms !== 'none') { _%>
--   [Init Layout Data Module](./custom-nuxt-modules/InitLayoutData.md)
+-   [Layout Data Module](./custom-nuxt-modules/LayoutData.md)
 <%_ } _%>
 <%_ if(features.netlifyLambda) { _%>
 -   [Netlify Lambda](./netlify/Lambda.md)
