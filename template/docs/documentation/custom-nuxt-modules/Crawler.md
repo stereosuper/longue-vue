@@ -1,6 +1,6 @@
 # Crawler 🌐
 
-## The idea
+## The idea 😏
 
 [Alban 🔥] Managing the routes list that Nuxt'll need to generate is not always easy depending on your project size.
 
