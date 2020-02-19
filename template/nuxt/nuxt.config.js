@@ -6,7 +6,7 @@ dotenv.config();
 
 import robotsOptions from './config/robots';
 
-import { excludedRoutes } from './assets/js/constants/routes';
+import { excludedStaticRoutes } from './assets/js/constants/routes';
 import { defaultLocale, locales, getPagesList } from './config/i18n';
 import frTranslation from './locales/fr.json';
 
@@ -236,7 +236,7 @@ export default {
      */
     generate: {
         fallback: '404.html',
-        exclude: excludedRoutes(isProdEnv)
+        exclude: excludedStaticRoutes(isProdEnv)
     },
     /*
      ** Nuxt.js modules

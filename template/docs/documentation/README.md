@@ -8,6 +8,9 @@
 ## Table of contents ✅
 
 ### General information
+👉 [See below](##General)
+
+### General sections
 <%_ if(cms !== "none") { _%>
 -   [CMS](./cms)
 <%_ } _%>
@@ -30,4 +33,36 @@
 <%_ if(features.staticDataModule) { _%>
 -   [Static Data Module](./custom-nuxt-modules/StaticData.md)
 <%_ } _%>
+
+
+## General
+
+### Exclude static routes
+
+In order to exclude static routes you'll need to go to the _nuxt.config.js_ file.
+In there find the _generate_ section. We'll take a look at the _exclude_ feature.
+
+```js
+/*
+** Generate configuration
+*/
+generate: {
+    fallback: '404.html',
+    // We're calling the excludedStaticRoutes function which will return the routes to exclude.
+    // SEE: ~/assets/js/constants/routes.js
+    exclude: excludedStaticRoutes(isProdEnv)
+},
+```
+
+Now let's take a look at the _routes.js_ file.
+
+```js
+// We'll prevent the dynamic route from being generated
+const prodBlacklist = [/\/dynamic/];
+
+const generalBlackList = [];
+
+export const excludedStaticRoutes = (isProdEnv = process.env.isProdEnv) =>
+    isProdEnv ? prodBlacklist : generalBlackList;
+```
 

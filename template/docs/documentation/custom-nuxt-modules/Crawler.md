@@ -34,9 +34,10 @@ I thinked about it... here's the solution:
 
 ### The blacklist
 
-#### Handle static files
-
 Inside the _nuxt.config.js_ file you'll be able to pass a _blacklist_ array.
+
+> 🚨 **Nota bene**  
+> The crawler module only handles the dynamic pages generation. The blacklist option will only stop the dynamic pages from being generated.
 
 ```js
 /*
@@ -44,29 +45,8 @@ Inside the _nuxt.config.js_ file you'll be able to pass a _blacklist_ array.
 */
 crawler: {
     query: crawlerQuery, // We'll say that crawlerQuery is your GraphQL query.
-    blacklist: [
-        '/test',
-        '/static-page-example',
-    ]
+    blacklist: [/dynamic/]
 },
-```
-
-#### Handle dynamic files
-
-In order to exclude dynamic files you'll need to edit the i18n config file in `~/config/i18n.js`.
-
-```js
-// The isProdEnv variable will help you to set the dynamic pages to false in production
-export const getPagesList = (isProdEnv = process.env.isProdEnv) => ({
-    [routes.dynamicListPage.i18nFormat]: {
-        // Conditionnal route example
-        fr: !isProdEnv ? '/dynamic' : false
-    },
-    [routes.dynamicSinglePage.i18nFormat]: {
-        // Conditionnal route example
-        fr: !isProdEnv ? '/dynamic/:dynamic?' : false
-    }
-});
 ```
 
 ## The things you don't really need to know but that you'll want to... because you're that curious 😂

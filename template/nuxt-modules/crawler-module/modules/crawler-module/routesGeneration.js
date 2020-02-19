@@ -90,6 +90,10 @@ export default async ({ generator, routes, options }) => {
              */
             if (!resolvedRoute || existingRoutes.includes(resolvedRoute)) return new Promise(resolve => resolve());
 
+            // Check if the route is blacklisted
+            const isBlacklisted = !!options.blacklist.filter(regex => resolvedRoute.match(regex)).length;
+            if (isBlacklisted) return new Promise(resolve => resolve());
+
             // Add the route to generation list
             return generator.generateRoute({
                 route: resolvedRoute,
