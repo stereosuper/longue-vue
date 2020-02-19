@@ -210,7 +210,7 @@ export default {
     /*
      ** Redirections configuration
      */
-        redirections: {
+    redirections: {
         /**
          * The GraphQL query that will get all the redirections available.
          * SEE: ~/config/redirections

@@ -17,3 +17,9 @@ One single config file. The one and only file's output: a query!
 In this query you'll need to get all your redirection texts. Then... that's done ✅
 
 The module will get all of those and write them down into your netlify \_redirects file (located at `~/static/_redirects`), or create it if it doesn't exist.
+
+## The things you don't really need to know but that you'll want to... because you're that curious 😂
+
+This nuxt module is referenced in the _nuxt.config.js_ configuration file as a build modules (see the [build modules documentation](https://nuxtjs.org/api/configuration-modules#-code-buildmodules-code-)).
+
+The _query_ is passed as a module option, then the module takes care of everything.
