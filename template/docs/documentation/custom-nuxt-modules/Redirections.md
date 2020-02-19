@@ -20,6 +20,6 @@ The module will get all of those and write them down into your netlify \_redirec
 
 ## The things you don't really need to know but that you'll want to... because you're that curious 😂
 
-This nuxt module is referenced in the _nuxt.config.js_ configuration file as a build modules (see the [build modules documentation](https://nuxtjs.org/api/configuration-modules#-code-buildmodules-code-)).
+This nuxt module is referenced in the _nuxt.config.js_ configuration file as a build module (see the [build modules documentation](https://nuxtjs.org/api/configuration-modules#-code-buildmodules-code-)).
 
 The _query_ is passed as a module option, then the module takes care of everything.
