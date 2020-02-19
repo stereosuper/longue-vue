@@ -20,13 +20,21 @@ module.exports = function(moduleOptions) {
         const redirectionsFilePath = join(this.nuxt.options.generate.dir, options.outputName);
         const { default: apolloClient } = await apolloClientImport();
 
+        // Navigating data object until we find strings 💪
+        const getRedirectionsStringsArray = data => {
+            if (Array.isArray(data)) {
+                return data.map(item => getRedirectionsStringsArray(item));
+            } else if (data instanceof Object) {
+                return getRedirectionsStringsArray(Object.values(data)[0]);
+            } else if (typeof data === 'string') {
+                return data;
+            }
+        };
+
+        // Getting the redirections list after computing the data
         const redirectionsList = await apolloClient
             .query({ query: options.query })
-            .then(({ data }) =>
-                data.redirectionGroup && data.redirectionGroup.redirections.length
-                    ? data.redirectionGroup.redirections.map(({ redirectionText }) => redirectionText)
-                    : []
-            );
+            .then(({ data }) => getRedirectionsStringsArray(data));
 
         this.nuxt.hook('generate:done', async () => {
             const redirectionsStringified = redirectionsList.reduce(
