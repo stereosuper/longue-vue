@@ -2,7 +2,7 @@
 
 ## The idea 😏
 
-[Alban 🔥] In Nuxt the `~/pages` directory will contain your website's routes. In those files you'll be able to get the data from your CMS on the server side 👌
+[Alban 🔥] The Nuxt `~/pages` directory will contain your website's routes. In those files you'll be able to get the data from your CMS on the server side 👌
 
 Those routes will be called by your layout located in the `~/layouts` directory.
 
