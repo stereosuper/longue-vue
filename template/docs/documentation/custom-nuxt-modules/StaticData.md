@@ -6,7 +6,7 @@
 – What do we do with Nuxt ? 🤔
 
 **[Alban 😎]**:  
-– We're generating a websites 😏
+– We're generating websites 😏
 
 **[Alban 🤔]**:  
  – So, in short, we're exporting API calls 😂
@@ -15,10 +15,10 @@
  – Oww... yeah 😓
 
 **[Alban 🦄]**:  
- – Not anymore guys! We'll make a module... THE MODULE 💪 It will be able to make all of our API calls... then it will write down the results in payload files 😍
+ – Not anymore guys! We'll make a module... **THE MODULE** 💪 It will be able to make all of our API calls... then it will write down the results in payload files 😍
 
 **[Alban 😎][alban 🤔]**:  
-![alt text](https://media.giphy.com/media/5VKbvrjxpVJCM/giphy.gif 'Wow!')
+![alt text](../images/mouahah.gif 'Wow!')
 
 ## Practical reality 🤔
 
