@@ -2,6 +2,7 @@ const readline = require('readline');
 const chalk = require('chalk');
 const { SiteClient } = require('datocms-client');
 
+let saoAnswers = null;
 let datoClient = null;
 
 const ids = {
@@ -276,7 +277,7 @@ const createBasicPageModel = async () => {
 const createDynamicListPageModel = async () => {
     // Model declaration
     const { id } = await datoClient.itemTypes.create({
-        name: 'Dynamic List Page',
+        name: 'Dynamic list page',
         apiKey: 'dynamic_list_page',
         singleton: true,
         draftModeActive: true,
@@ -330,7 +331,7 @@ const createDynamicListPageModel = async () => {
 const createDynamicSinglePageModel = async () => {
     // Model declaration
     const { id } = await datoClient.itemTypes.create({
-        name: 'Dynamic Single Page',
+        name: 'Dynamic single page',
         apiKey: 'dynamic_single_page',
         singleton: false,
         draftModeActive: true,
@@ -704,6 +705,70 @@ const createMenuItems = async () => {
     }
 };
 
+const createRedirectionsModel = async () => {
+    if (!saoAnswers.features.includes('redirections-module')) return;
+
+    // Redirection group model declaration
+    const { id: redirectionGroupModelId } = await datoClient.itemTypes.create({
+        name: 'Redirection group',
+        apiKey: 'redirection_group',
+        singleton: true,
+        draftModeActive: true,
+        allLocalesRequired: true,
+        collectionAppeareance: 'table',
+        modularBlock: false,
+        orderingDirection: null,
+        sortable: false,
+        tree: false,
+        orderingField: null,
+        titleField: null
+    });
+
+    // Redirection model declaration
+    const { id: redirectionModelId } = await datoClient.itemTypes.create({
+        name: 'Redirection',
+        apiKey: 'redirection',
+        collectionAppeareance: 'table',
+        singleton: false,
+        allLocalesRequired: true,
+        sortable: false,
+        modularBlock: true,
+        draftModeActive: false,
+        tree: false,
+        orderingDirection: null,
+        hasSingletonItem: false,
+        singletonItem: null,
+        titleField: null,
+        orderingField: null
+    });
+
+    await datoClient.fields.create(redirectionGroupModelId, {
+        label: 'Redirections',
+        fieldType: 'rich_text',
+        defaultValue: null,
+        localized: false,
+        apiKey: 'redirections',
+        hint: null,
+        validators: { richTextBlocks: { itemTypes: [redirectionModelId] } },
+        appeareance: { editor: 'rich_text', parameters: { startCollapsed: false }, addons: [] },
+        position: 1
+    });
+
+    await datoClient.fields.create(redirectionModelId, {
+        label: 'Redirection text',
+        fieldType: 'string',
+        defaultValue: null,
+        localized: false,
+        apiKey: 'redirection_text',
+        hint: null,
+        validators: { required: {} },
+        appeareance: { editor: 'single_line', parameters: { heading: false }, addons: [] },
+        position: 1
+    });
+
+    datoLogger('Redirections model created');
+};
+
 const handleModels = async () => {
     try {
         const allModelsKeys = await datoClient.itemTypes.all().then(models => models.map(({ apiKey }) => apiKey));
@@ -737,13 +802,20 @@ const handleModels = async () => {
         }
 
         await createMenuItems();
+
+        if (!allModelsKeys.includes('redirection_group') && !allModelsKeys.includes('redirection')) {
+            await createRedirectionsModel();
+        }
     } catch (error) {
         console.error(error);
     }
 };
 
-module.exports = async datoFullAccessToken => {
-    datoClient = new SiteClient(datoFullAccessToken);
+module.exports = async ({ answers }) => {
+    saoAnswers = answers;
+    if (!saoAnswers) return;
+
+    datoClient = new SiteClient(answers.datoFullAccessToken);
     if (!datoClient) return;
 
     try {

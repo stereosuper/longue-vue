@@ -9,10 +9,10 @@ export const locales = [{ code: 'fr', iso: 'fr_FR' }];
 export const getPagesList = (isProdEnv = process.env.isProdEnv) => ({
     [routes.dynamicListPage.i18nFormat]: {
         // Conditionnal route example
-        fr: isProdEnv ? '/dynamic' : false
+        fr: !isProdEnv ? '/dynamic' : false
     },
     [routes.dynamicSinglePage.i18nFormat]: {
         // Conditionnal route example
-        fr: isProdEnv ? '/dynamic/:dynamic?' : false
+        fr: !isProdEnv ? '/dynamic/:dynamic?' : false
     }
 });

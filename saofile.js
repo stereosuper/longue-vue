@@ -160,7 +160,7 @@ module.exports = {
         this.gitInit();
 
         if (this.answers.cms === 'dato') {
-            await initializeDato(this.answers.datoFullAccessToken);
+            await initializeDato({ answers: this.answers });
         }
 
         await this.npmInstall({ npmClient: this.answers.pm });

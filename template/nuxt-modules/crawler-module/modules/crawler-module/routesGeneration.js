@@ -21,6 +21,10 @@ const routeResolver = ({ dynamicRootPageName, localeCode, routeData }) => {
     // If an i18n config is found and the page is not matching with the dynamic root page template
     if (i18nPageConfig && dynamicRootPageName !== routeByApiModels[_modelApiKey].i18nFormat) {
         const i18nPath = i18nPageConfig[localeCode];
+
+        // If i18nPath is false the i18n page's config is set to false a.k.a. no generation
+        if (!i18nPath) return null;
+
         const slugPathIndex = i18nPath.indexOf(':');
 
         // With a slug
@@ -44,7 +48,7 @@ const routeResolver = ({ dynamicRootPageName, localeCode, routeData }) => {
 
 export default async ({ generator, routes, options }) => {
     // eslint-disable-next-line
-    if (!options.query) logger.error(new Error('Crawler module: No query found in crawler module\'s options.'));
+    if (!options.query) logger.error(new Error("Crawler module: No query found in crawler module's options."));
 
     const pagesDirPath = join(__dirname, '../../pages');
     // The pre-existing routes list (before extending routes)
