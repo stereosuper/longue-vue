@@ -2,11 +2,11 @@
 
 ## The idea
 
-[Alban 🔥] Managing the routes list that Nuxt'll need to generate is not always easy depending on the project size.
+[Alban 🔥] Managing the routes list that Nuxt'll need to generate is not always easy depending on your project size.
 
 ### The need
 
-I needed to easilly generate all the routes (localized static and dynamic routes 😭) with any given CMS.
+I needed to easilly generate all the routes (static and dynamic localized routes 😭) with any given CMS.
 
 ### The solution
 
@@ -20,7 +20,7 @@ The config file is located at `~/config/crawler.js`.
 
 By default it exports a GraphQL query. In this query you'll need to get all the dynamic pages (pages with a slug, not the pages corresponding to a static page. CMS ≠ Dynamic).
 
-All of those pages you'll have to provide two informations:
+For all of those pages you'll have to provide two informations:
 
 1. their slug
 1. their api key/model
