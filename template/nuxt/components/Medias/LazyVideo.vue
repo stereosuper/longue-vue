@@ -5,22 +5,15 @@
         :class="{ 'with-play-button': playButton }"
         :style="`min-height:${minHeight}px;`"
     >
-        <transition-group name="start-video">
-            <button
-                v-show="!started"
-                key="1"
-                class="play-button"
-                type="button"
-                :aria-label="$t('aria.labels.videoPlayer.playButton')"
-                @click="playVideo"
-            >
+        <transition-group v-if="!started" name="start-video">
+            <button key="1" class="play-button" type="button" @click="playVideo">
                 <span class="play-symbol" />
             </button>
-            <ImageObjectFit
-                v-show="playerData.videoThumbnail && !started"
+            <LazyImage
+                v-if="playerData.thumbnail"
                 key="2"
                 class="thumbnail"
-                :image="playerData.videoThumbnail"
+                :image="playerData.thumbnail"
                 :class="started"
             />
         </transition-group>
@@ -31,41 +24,38 @@
             v-lazyload="{ lazyLoaded, lazyError }"
             class="video"
             :controls="controls"
-            :autoplay="playerData.videoAutoplay || autoplay"
-            :muted="playerData.videoAutoplay || playerData.videoMuted || muted"
-            :loop="playerData.videoLoop || loop"
+            :autoplay="playerData.autoplay"
+            :muted="playerData.autoplay || playerData.muted"
+            :loop="playerData.loop"
             preload="none"
             playsinline
+            :poster="playerData.thumbnail.url"
             :data-src="playerData.video.url"
-            :tabindex="tabIndex"
         />
     </div>
 </template>
 
 <script>
 import { requestTimeout } from '@stereorepo/sac';
-import ImageObjectFit from '~/components/Medias/ImageObjectFit';
+import { resolveInputData } from '~/assets/js/resolvers/video-resolver';
+
 import VideoLazyLoadingDirective from '~/directives/VideoLazyLoadingDirective';
+import LazyImage from '~/components/Medias/LazyImage';
 
 export default {
     directives: { lazyload: VideoLazyLoadingDirective },
-    components: { ImageObjectFit },
+    components: { LazyImage },
     props: {
-        playerData: { type: Object, required: true },
+        player: { type: Object, required: true },
         start: { type: Boolean, default: false },
         pause: { type: Boolean, default: true },
         controls: { type: Boolean, default: false },
-        autoplay: { type: Boolean, default: false },
-        muted: { type: Boolean, default: false },
-        loop: { type: Boolean, default: false },
-        playButton: { type: Boolean, default: false },
-        autoHeight: { type: Boolean, default: false },
-        tabIndex: { type: String, default: null }
+        playButton: { type: Boolean, default: false }
     },
     data() {
         return {
+            playerData: resolveInputData(this.player),
             videoElement: null,
-            imageThumbnail: null,
             started: false,
             readyToPlay: false,
             videoWatcher: null,
@@ -90,8 +80,14 @@ export default {
             this.pauseVideo();
         },
         inView(state) {
-            if (state && this.playerData.videoAutoplay) this.playVideo;
+            if (state && this.playerData.autoplay) this.playVideo;
         }
+    },
+    created() {
+        if (!this.$stereorepo.superScroll)
+            throw new Error(
+                'The lazy video module will not work without the SuperScroll component. See https://github.com/stereosuper/stereorepo/tree/master/packages/sac/src/components/SuperScroll'
+            );
     },
     mounted() {
         this.setVideoSize();
@@ -104,9 +100,9 @@ export default {
     },
     methods: {
         async setVideoSize() {
-            if (this.autoHeight) return;
-
-            const { height: originalHeight, width: originalWidth } = this.playerData.video;
+            const {
+                dimensions: { height: originalHeight, width: originalWidth }
+            } = this.playerData.video;
 
             const { width: currentWidth } = await this.$stereorepo.superDOM.measure(() =>
                 this.videoWrapper.getBoundingClientRect()
@@ -141,9 +137,7 @@ export default {
             // Handle autoplay
             this.videoElement.addEventListener('playing', this.handleFirstPlay, false);
 
-            if (this.playerData.videoAutoplay) {
-                this.playVideo();
-            }
+            if (this.playerData.autoplay) this.playVideo();
         },
         lazyLoaded() {},
         lazyError() {},
@@ -209,6 +203,7 @@ export default {
             width: 100%;
             height: 100%;
             border: 0;
+            opacity: 1;
             z-index: 2;
             &::before {
                 content: '';
@@ -217,7 +212,7 @@ export default {
                 left: 0;
                 right: 0;
                 bottom: 0;
-                opacity: 0.25;
+                opacity: 0.5;
                 background: $black;
             }
         }
@@ -229,8 +224,8 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: $gutter * 3;
-    border: 2px solid $paris-daisy;
+    width: $gutter * 2;
+    border: 2px solid $white;
     border-radius: 50%;
     z-index: 2;
     &::before,
@@ -245,9 +240,9 @@ export default {
         position: absolute;
         top: 50%;
         left: 50%;
-        border-top: $line-height solid transparent;
-        border-left: $gutter solid $paris-daisy;
-        border-bottom: $line-height solid transparent;
+        border-top: $line-height * 0.75 solid transparent;
+        border-left: $gutter * 0.75 solid $white;
+        border-bottom: $line-height * 0.75 solid transparent;
         border-radius: 3px;
         box-sizing: border-box;
         transform: translate(-33%, -50%);
@@ -269,17 +264,12 @@ export default {
     z-index: 0;
 }
 
-.start-video-enter-to,
 .start-video-leave {
     opacity: 1;
 }
-
-.start-video-enter,
 .start-video-leave-to {
     opacity: 0;
 }
-
-.start-video-enter-active,
 .start-video-leave-active {
     transition: transition(
         (
@@ -289,5 +279,16 @@ export default {
         ),
         $ease-out-timing-function
     );
+}
+
+@media (min-width: $phone) {
+    .play-symbol {
+        width: $gutter * 3;
+        &::after {
+            border-top: $line-height solid transparent;
+            border-left: $gutter solid $white;
+            border-bottom: $line-height solid transparent;
+        }
+    }
 }
 </style>

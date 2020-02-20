@@ -133,9 +133,9 @@ export const validateDynamicPage = async ({ app, routePath, routeName, store }) 
 export const getHome = async ({ app, store }) => {
     // ~/pages/index graphql query call
     // SEE: ~/cms/queries/homePageQuery
-    const cmsData = await makeQuery({ app, query: homePageQuery, store });
+    const { homePage } = await makeQuery({ app, query: homePageQuery, store });
 
-    return Object.freeze(cmsData);
+    return Object.freeze(homePage);
 };
 
 // Basic page
