@@ -4,9 +4,9 @@ import { BREAKPOINTS } from '~/plugins/breakpoints';
 const imgixParameters = url =>
     `${url}?lossless=true&fm=${isSafari() || isIe11() ? url.split('.').pop() : 'webp'}&auto=format`;
 
-export const parseSrc = ({ data: { url } }) => imgixParameters(url);
+export const resolveSrc = ({ data: { url } }) => imgixParameters(url);
 
-export const parseSrcSet = ({ data, breakpoints, isFullWidth }) => {
+export const resolveSrcSet = ({ data, breakpoints, isFullWidth }) => {
     let srcsetOutput = '';
     const breakpointsLength = breakpoints.length;
 
@@ -32,7 +32,7 @@ export const parseSrcSet = ({ data, breakpoints, isFullWidth }) => {
     return srcsetOutput;
 };
 
-export const parseSizes = ({ data, breakpoints, isFullWidth }) => {
+export const resolveSizes = ({ data, breakpoints, isFullWidth }) => {
     let sizesOutput = '';
     const breakpointsLength = breakpoints.length;
 
@@ -54,7 +54,7 @@ export const parseSizes = ({ data, breakpoints, isFullWidth }) => {
     return sizesOutput;
 };
 
-export const parseInputData = data => {
+export const resolveInputData = data => {
     const { alt, copyright, height, url, width } = data;
 
     return {
