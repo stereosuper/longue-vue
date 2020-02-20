@@ -39,8 +39,20 @@
 
 ### Exclude static routes
 
-In order to exclude static routes you'll need to go to the _nuxt.config.js_ file.
-In there find the _generate_ section. We'll take a look at the _exclude_ feature.
+In order to exclude static routes you'll need to go to the _routes.js_ file.
+In there find you'll find the function _excludedStaticRoutes_. This function will return the routes to exclude to the _nuxt.config.js_'s _generate_ section.
+
+```js
+// We'll prevent the /dynamic* routes from being generated
+const prodBlacklist = [/\/dynamic/];
+
+const generalBlackList = [];
+
+export const excludedStaticRoutes = (isProdEnv = process.env.isProdEnv) =>
+    isProdEnv ? prodBlacklist : generalBlackList;
+```
+
+Now let's take a look at the _nuxt.config.js_ file. The _excludedStaticRoutes_ function is called and returning the blacklisted routes to the _exclude_ feature.
 
 ```js
 /*
@@ -53,16 +65,3 @@ generate: {
     exclude: excludedStaticRoutes(isProdEnv)
 },
 ```
-
-Now let's take a look at the _routes.js_ file.
-
-```js
-// We'll prevent the dynamic route from being generated
-const prodBlacklist = [/\/dynamic/];
-
-const generalBlackList = [];
-
-export const excludedStaticRoutes = (isProdEnv = process.env.isProdEnv) =>
-    isProdEnv ? prodBlacklist : generalBlackList;
-```
-
