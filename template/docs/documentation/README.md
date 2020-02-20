@@ -8,14 +8,15 @@
 ## Table of contents ✅
 
 ### General information
+
 👉 [See below](##General)
 
 ### General sections
 <%_ if(cms !== "none") { _%>
--   [CMS](./cms)
+-   [CMS](./cms/README.md)
 <%_ } _%>
--   [Components](./components)
--   [Plugins](./plugins)
+-   [Components](./components/README.md)
+-   [Plugins](./plugins/README.md)
 
 ### Specific elements
 <%_ if(features.crawlerModule) { _%>
