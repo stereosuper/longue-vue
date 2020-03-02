@@ -1,6 +1,7 @@
 export default {
-  sources: ['**/*.{js}'],
-  files: ['./test/*.test.js', '!template'],
-  tap: false,
-  verbose: true
-}
+    ignoredByWatcher: ['!**/*.{js}'],
+    files: ['./test/*.test.js', '!template'],
+    tap: false,
+    verbose: true,
+    babel: true
+};

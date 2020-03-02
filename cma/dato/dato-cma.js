@@ -9,6 +9,7 @@ const ids = {
     link: null,
     pages: {
         homePage: null,
+        errorPage: null,
         basicPage: null,
         dynamicListPage: null,
         dynamicSinglePage: null
@@ -197,6 +198,47 @@ const createHomePageModel = async () => {
     });
 
     datoLogger('Home page model created');
+};
+
+const createErrorPageModel = async () => {
+    // Model declaration
+    const { id } = await datoClient.itemTypes.create({
+        name: 'Error page',
+        apiKey: 'error_page',
+        singleton: true,
+        draftModeActive: true,
+        allLocalesRequired: true,
+        collectionAppeareance: 'table',
+        modularBlock: false,
+        orderingDirection: null,
+        sortable: false,
+        tree: false,
+        orderingField: null,
+        titleField: null
+    });
+
+    ids.pages.errorPage = id;
+
+    // Entity title field declaration
+    datoClient.fields.create(id, {
+        apiKey: 'entity_title',
+        label: 'Entity title',
+        localized: false,
+        validators: {
+            required: {}
+        },
+        appeareance: {
+            editor: 'single_line',
+            parameters: { heading: false },
+            addons: []
+        },
+        defaultValue: null,
+        fieldType: 'string',
+        hint: 'This is your entity title',
+        position: 1
+    });
+
+    datoLogger('Error page model created');
 };
 
 const createBasicPageModel = async () => {
@@ -775,6 +817,10 @@ const handleModels = async () => {
 
         if (!allModelsKeys.includes('home_page')) {
             await createHomePageModel();
+        }
+
+        if (!allModelsKeys.includes('error_page')) {
+            await createErrorPageModel();
         }
 
         if (!allModelsKeys.includes('basic_page')) {
