@@ -52,7 +52,8 @@ const handleSiteSettings = async () => {
                 twitterAccount: '@awesomewebsite'
             },
             locales: ['fr-FR'],
-            name: 'My Awesome New Website 🔥',
+            // HACK: Dato won't update the site's settings if another Dato project has the same name.
+            name: `My Awesome New Website n°${Math.floor(Math.random() * 1000000)} 🔥`,
             theme: {
                 primaryColor: {
                     red: 0,
@@ -283,8 +284,8 @@ const createBasicPageModel = async () => {
     datoClient.fields.create(id, {
         label: 'Slug',
         fieldType: 'string',
-        defaultValue: null,
         localized: true,
+        defaultValue: { 'fr-FR': null },
         apiKey: 'slug',
         hint: null,
         validators: {
@@ -412,8 +413,8 @@ const createDynamicSinglePageModel = async () => {
     datoClient.fields.create(id, {
         label: 'Slug',
         fieldType: 'string',
-        defaultValue: null,
         localized: true,
+        defaultValue: { 'fr-FR': null },
         apiKey: 'slug',
         hint: null,
         validators: {
@@ -481,7 +482,7 @@ const createLinkModel = async () => {
             parameters: { heading: false },
             addons: []
         },
-        defaultValue: null,
+        defaultValue: { 'fr-FR': null },
         fieldType: 'string',
         hint: 'This will be your link text',
         position: 1
@@ -500,7 +501,7 @@ const createLinkModel = async () => {
             parameters: { heading: false },
             addons: []
         },
-        defaultValue: null,
+        defaultValue: { 'fr-FR': null },
         fieldType: 'string',
         hint: 'This will be your link aria-label',
         position: 2
