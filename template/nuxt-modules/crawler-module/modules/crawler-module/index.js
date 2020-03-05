@@ -1,7 +1,4 @@
-import { join } from 'path';
-import { writeJson } from 'fs-extra';
 import logger from 'consola';
-import { runPromisesSequence } from '@stereorepo/sac';
 
 import routesGeneration from './routesGeneration';
 
@@ -13,33 +10,17 @@ module.exports = async function(moduleOptions) {
         ...moduleOptions
     };
 
-    const routesFilePath = join(this.nuxt.options.generate.dir, 'routes.json');
-
-    const routesList = [];
-
-    // Add route to routes.json
-    const addRoute = async route => {
-        // Adding the new route to the routes list
-        routesList.push(route);
-        // Writing / rewriting the routes into the json file
-        await writeJson(routesFilePath, routesList).catch(err => {
-            logger.error('Writing ${route} route failed', err);
-        });
-    };
-
     // Hook generator to extract routes
     this.nuxt.hook('generate:before', async generator => {
-        // 🎣 Add hook when a page is generated
-        this.nuxt.hook('generate:extendRoutes', async routes => {
-            // Add each route to static route.json file
-            const handler = async ({ route }) => {
-                await addRoute(route);
-            };
-            await runPromisesSequence({ array: routes, handler, delay: 10 });
+        // HACK: Removing pages' routes ending slash
+        this.nuxt.hook('generate:page', async page => {
+            page.route = page.route.replace(/\/$/, '');
+            return page;
         });
 
-        // Extending the pre-existing routes
+        // 🎣 Add hook when a page is generated
         this.nuxt.hook('generate:extendRoutes', async routes => {
+            // Extending the pre-existing routes
             await routesGeneration({ generator, routes, options });
         });
 
@@ -47,6 +28,7 @@ module.exports = async function(moduleOptions) {
         let startTime;
         let count;
         this.nuxt.hook('generate:routeCreated', () => {
+            // Profiling started
             if (!startTime) {
                 startTime = new Date();
                 count = 0;
@@ -54,6 +36,7 @@ module.exports = async function(moduleOptions) {
                 count++;
             }
         });
+
         this.nuxt.hook('generate:done', async () => {
             const time = (new Date() - startTime) / 1000;
             const rps = count / time;

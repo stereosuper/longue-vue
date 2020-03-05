@@ -1,5 +1,5 @@
 import { join } from 'path';
-import { readdirSync } from 'fs-extra';
+import { readdirSync, writeJson } from 'fs-extra';
 import { runPromisesSequence } from '@stereorepo/sac';
 import logger from 'consola';
 
@@ -51,8 +51,32 @@ export default async ({ generator, routes, options }) => {
     if (!options.query) logger.error(new Error("Crawler module: No query found in crawler module's options."));
 
     const pagesDirPath = join(__dirname, '../../pages');
+
     // The pre-existing routes list (before extending routes)
     const existingRoutes = routes.map(({ route }) => route);
+
+    const routesFilePath = join(generator.nuxt.options.generate.dir, 'routes.json');
+
+    const routesList = [];
+
+    // Add route to routes.json
+    const addRoute = async route => {
+        // Adding the new route to the routes list
+        routesList.push(route);
+        // Writing / rewriting the routes into the json file
+        await writeJson(routesFilePath, routesList).catch(err => {
+            logger.error('Writing ${route} route failed', err);
+        });
+    };
+
+    // Add each static route to static route.json file
+    await runPromisesSequence({
+        array: existingRoutes,
+        handler: async route => {
+            await addRoute(route);
+        },
+        delay: 5
+    });
 
     // Getting the ~/pages directory's root dynamic page name
     const [dynamicRootPageFilename] = readdirSync(pagesDirPath).filter(file => file.indexOf('_') === 0);
@@ -80,8 +104,12 @@ export default async ({ generator, routes, options }) => {
         }, []);
 
         // Resolving pages collected with the gql query
-        const routesHandler = routeData => {
-            const resolvedRoute = routeResolver({ dynamicRootPageName, localeCode: code, routeData });
+        const routesHandler = async routeData => {
+            const resolvedRoute = routeResolver({
+                dynamicRootPageName,
+                localeCode: code,
+                routeData
+            });
 
             /**
              * NOTE:
@@ -94,6 +122,9 @@ export default async ({ generator, routes, options }) => {
             const isBlacklisted = !!options.blacklist.filter(regex => resolvedRoute.match(regex)).length;
             if (isBlacklisted) return new Promise(resolve => resolve());
 
+            // Add each dynamic route to static route.json file
+            await addRoute(resolvedRoute);
+
             // Add the route to generation list
             return generator.generateRoute({
                 route: resolvedRoute,
@@ -101,10 +132,18 @@ export default async ({ generator, routes, options }) => {
             });
         };
 
-        await runPromisesSequence({ array: pagesResults, handler: routesHandler, delay: 0 });
+        await runPromisesSequence({
+            array: pagesResults,
+            handler: routesHandler,
+            delay: 5
+        });
     };
 
     // Starting to resolve routes depending on all the locales
     logger.info('Generating extended pages');
-    await runPromisesSequence({ array: locales, handler: localesHandler, delay: 0 });
+    await runPromisesSequence({
+        array: locales,
+        handler: localesHandler,
+        delay: 5
+    });
 };
