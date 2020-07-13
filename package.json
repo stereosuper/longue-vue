@@ -42,7 +42,7 @@
         "eslint-plugin-prettier": "^3.1.2",
         "eslint-plugin-vue": "^6.2.1",
         "prettier": "^1.19.1",
-        "standard-version": "^7.1.0"
+        "standard-version": "^8.0.1"
     },
     "author": "Alphability <albanmezino@gmail.com> (https://albanmezino.fr)",
     "homepage": "https://github.com/stereosuper/longue-vue#readme",
